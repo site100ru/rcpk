@@ -15,7 +15,7 @@
 </head>
 
 <body <?php body_class(); ?>>
-    <div class="section section--u-i1mm52hsj">
+    <div class="section">
         <div class="div div--u-ib590tatk">
 
             <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
@@ -45,9 +45,6 @@
                             <span class="text-block-wrap-div"><?php the_title(); ?></span>
                         </span>
                     </div>
-
-                    <!-- Заголовок страницы -->
-                    <h1 class="page-title page-title--u-ipo71g40j"><?php the_title(); ?></h1>
 
                     <!-- Контент из Gutenberg -->
                     <div class="content content--u-iwo7oqyms">
