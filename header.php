@@ -529,7 +529,7 @@
                             <div class="div div--u-if8m6hfjg">
                                 <div class="list list--u-id9txhv53">
                                     <div class="list__item list__item--u-izm0hwedg">
-                                        <a target="_blank" href="https://trade43.ru/skolkovo" target="_blank">
+                                        <a target="_blank" href="/skolkovo" target="_blank">
                                             <img src="https://rcpk.site/wp-content/uploads/2026/03/skolkovo-logo.png">
                                         </a>
                                     </div>
