@@ -15,7 +15,7 @@
 </head>
 
 <body <?php body_class(); ?>>
-    <div class="section">
+    <div class="section skolkovo">
         <div class="div div--u-ib590tatk">
 
             <?php if (have_posts()) : while (have_posts()) : the_post(); ?>

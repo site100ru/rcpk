@@ -932,3 +932,8 @@ p:first-child {
     display: flex;
     align-items: flex-end;
 }
+
+.skolkovo {
+    display: flex;
+    justify-content: center;
+}
