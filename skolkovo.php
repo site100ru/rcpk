@@ -13,7 +13,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <?php wp_head(); ?>
 </head>
+<?php
 
+/**
+ * Базовый шаблон страницы
+ */
+get_header();
+?>
 <body <?php body_class(); ?>>
     <div class="section skolkovo">
         <div class="div div--u-ib590tatk">
@@ -56,6 +62,7 @@
 
         </div>
     </div>
+    <?php get_footer(); ?>
 </body>
 
 </html>
