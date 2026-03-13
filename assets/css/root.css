@@ -927,3 +927,8 @@ p:first-child {
 .btn-close-white {
     filter: var(--bs-btn-close-white-filter);
 }
+
+.wp-block-columns-is-layout-flex {
+    display: flex;
+    align-items: flex-end;
+}
