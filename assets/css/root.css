@@ -930,7 +930,8 @@ p:first-child {
 
 .wp-block-columns-is-layout-flex {
     display: flex;
-    align-items: flex-end;
+    align-items: center !important;
+    text-align: start !important;
 }
 
 .skolkovo {
@@ -941,4 +942,12 @@ p:first-child {
 
 .content--u-iwo7oqyms :where(figure) {
     margin: auto !important;
+}
+
+.skolkovo  .div--u-ib590tatk {
+    max-width: 1200px;
+}
+
+.skolkovo  .div--u-ib590tatk .start {
+    justify-self: start;
 }
