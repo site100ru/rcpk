@@ -524,7 +524,7 @@ if (isset($_SESSION['win'])) {
                             <div class="div div--u-if8m6hfjg">
                                 <div class="list list--u-id9txhv53">
                                     <div class="list__item list__item--u-izm0hwedg">
-                                        <a target="_blank" href="/skolkovo" target="_blank">
+                                        <a href="/skolkovo">
                                             <img src="https://rcpk.site/wp-content/uploads/2026/03/skolkovo-logo.png">
                                         </a>
                                     </div>
@@ -1058,8 +1058,7 @@ if (isset($_SESSION['win'])) {
                                     </div>
                                 </a>
                                 <div class="blocklist__item_text blocklist__item_text--u-i82s24il7">
-                                    <span class="text-block-wrap-div">По завершении курса вы получаете официальный документ о повышении квалификации — удостоверение или диплом
-                                        установленного образца, который подтверждает ваши новые знания и навыки</span>
+                                    <span class="text-block-wrap-div">По завершении курса вы получаете официальный документ об образовании — удостоверение или диплом установленного образца, который подтверждает ваши новые знания и навыки</span>
                                 </div>
                             </div>
                         </div>
@@ -1338,7 +1337,7 @@ if (isset($_SESSION['win'])) {
                                                         </svg>
                                                     </span>
                                                     <div class="text text--u-i098om54v">
-                                                        <span class="text-block-wrap-div">30+ преподавателей-практиков с опытом от 10 лет</span>
+                                                        <span class="text-block-wrap-div">Актуальные программы, соответствующие современным требованиям</span>
                                                     </div>
                                                 </div>
                                                 <div class="list__item list__item--u-i4fq9l4wj">

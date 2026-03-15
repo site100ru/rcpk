@@ -938,3 +938,7 @@ p:first-child {
     justify-content: center;
     padding: 20px;
 }
+
+.content--u-iwo7oqyms :where(figure) {
+    margin: auto !important;
+}
