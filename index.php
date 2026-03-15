@@ -1466,7 +1466,7 @@ if (isset($_SESSION['win'])) {
                 <div class="section section--u-i1mm52hsj section--u-i1mm52hsj-123">
                     <div class="div div--u-ihuo14hdq">
                         <div class="heading heading--u-iwz7id95u">
-                            <span class="text-block-wrap-div">Лицензии и свидетельства</span>
+                            <span class="text-block-wrap-div">Лицензии и аккредитации</span>
                         </div>
                         <div class="div div--u-ix97q2o2o">
                             <div class="blocklist blocklist--u-iv7qintoh blocklist--u-iv7qintoh-123">

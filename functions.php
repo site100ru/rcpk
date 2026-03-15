@@ -864,7 +864,7 @@ function mytheme_customize_register($wp_customize)
         'type'        => 'text',
     ));
 	
-	// СЕКЦИЯ: Лицензии и свидетельства
+	// СЕКЦИЯ: Лицензии и аккредитации
 	$wp_customize->add_section('mytheme_licenses', array(
 		'title'    => 'Галерея документов',
 		'priority' => 210,
