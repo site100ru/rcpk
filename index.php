@@ -1462,8 +1462,8 @@ if (isset($_SESSION['win'])) {
             $licenses = mytheme_get_licenses();
 
             if (!empty($licenses)) : ?>
-
-                <div class="section section--u-i1mm52hsj section--u-i1mm52hsj-123">
+                <div id="licenses_acc"></div>
+                <div  class="section section--u-i1mm52hsj section--u-i1mm52hsj-123">
                     <div class="div div--u-ihuo14hdq">
                         <div class="heading heading--u-iwz7id95u">
                             <span class="text-block-wrap-div">Лицензии и аккредитации</span>
