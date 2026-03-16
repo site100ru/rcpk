@@ -951,3 +951,7 @@ p:first-child {
 .skolkovo  .div--u-ib590tatk .start {
     justify-self: start;
 }
+
+html {
+  scroll-behavior: smooth;
+}
