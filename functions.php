@@ -1189,7 +1189,6 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
     {
         $classes = empty($item->classes) ? array() : (array) $item->classes;
 
-        // Классы для li
         if ($depth == 0) {
             $li_class = 'hor-menu__item hor-menu__item--u-iggcx09k2';
             if (in_array('current-menu-item', $classes) || in_array('current_page_item', $classes)) {
@@ -1204,16 +1203,22 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu
 
         $output .= '<li class="' . esc_attr($li_class) . '">';
 
-        // Ссылка
         $link_class = ($depth == 0) ? 'hor-menu__link hor-menu__link--u-ix575hv02' : 'hor-menu__sub_link hor-menu__sub_link--u-i2g1xria8';
         $text_class = ($depth == 0) ? 'hor-menu__text hor-menu__text--u-ihigo1c04' : 'hor-menu__sub_text hor-menu__sub_text--u-i4ranael9';
 
-        $output .= '<a href="' . esc_url($item->url) . '" class="' . $link_class . '">';
+        // Атрибут target
+        $target = !empty($item->target) ? ' target="' . esc_attr($item->target) . '"' : '';
+        // Атрибут rel (для noopener при target="_blank")
+        $rel = !empty($item->xfn) ? ' rel="' . esc_attr($item->xfn) . '"' : '';
+        if ($item->target === '_blank' && empty($item->xfn)) {
+            $rel = ' rel="noopener noreferrer"';
+        }
+
+        $output .= '<a href="' . esc_url($item->url) . '" class="' . $link_class . '"' . $target . $rel . '>';
         $output .= '<span class="' . $text_class . '">';
         $output .= '<span class="text-block-wrap-div">' . esc_html($item->title) . '</span>';
         $output .= '</span>';
 
-        // Иконка для пунктов с подменю
         if ($depth == 0 && in_array('menu-item-has-children', $classes)) {
             $output .= '<span class="hor-menu__icon hor-menu__icon--u-i9c9ipswi"></span>';
         }
