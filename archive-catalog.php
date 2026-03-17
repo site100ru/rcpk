@@ -58,9 +58,13 @@ get_header(); ?>
                                 <div class="lpc-menu-1__inner lpc-row _left">
                                     <ul class="lpc-menu-1__list lpc-col-4-xl lpc-col-4-lg lpc-col-4-md lpc-col-12-sm lpc-col-12-xs">
                                         
-                                        <?php while ($catalog_query->have_posts()) : $catalog_query->the_post(); ?>
+                                        <?php while ($catalog_query->have_posts()) : $catalog_query->the_post(); 
+                                            $external_link = get_post_meta(get_the_ID(), 'external_link', true);
+                                            $link_url = !empty($external_link) ? $external_link : get_permalink();
+                                        ?>
                                             <li class="lpc-menu-1__item">
-                                                <a href="<?php the_permalink(); ?>" class="lpc-menu-1__link lp-button lpc-button--type-2">
+                                                <a href="<?php echo esc_url($link_url); ?>" class="lpc-menu-1__link lp-button lpc-button--type-2"
+                                                <?php if (!empty($external_link)) echo 'target="_blank" rel="noopener noreferrer"'; ?>>
                                                     <?php the_title(); ?>
                                                     <span class="lpc-menu-1__arrow">
                                                         <span class="lpc-menu-1__arrow-line"></span>
