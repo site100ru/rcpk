@@ -449,8 +449,9 @@ function mytheme_customize_register($wp_customize)
     $wp_customize->add_setting('mytheme_counter_head', array(
         'default'           => '',
         'transport'         => 'refresh',
-        'sanitize_callback' => 'wp_kses_post',
-        'capability'        => 'edit_theme_options',
+        // Preserve script tags; only users allowed to save unfiltered HTML can edit this.
+        'sanitize_callback' => null,
+        'capability'        => 'unfiltered_html',
     ));
     $wp_customize->add_control('mytheme_counter_head', array(
         'label'       => 'Код счетчика (в <head>)',
@@ -463,8 +464,9 @@ function mytheme_customize_register($wp_customize)
     $wp_customize->add_setting('mytheme_counter_body', array(
         'default'           => '',
         'transport'         => 'refresh',
-        'sanitize_callback' => 'wp_kses_post',
-        'capability'        => 'edit_theme_options',
+        // Preserve script tags; only users allowed to save unfiltered HTML can edit this.
+        'sanitize_callback' => null,
+        'capability'        => 'unfiltered_html',
     ));
     $wp_customize->add_control('mytheme_counter_body', array(
         'label'       => 'Код счетчика (перед </body>)',
