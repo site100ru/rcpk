@@ -1,9 +1,8 @@
 <?php
 /**
  * Поиск курсов: /kursy/poisk/?q=...
- * Вёрстка унифицирована с archive-course.php (/kursy/): halved hero, крошки,
- * сетка курсов-карточек (blocklist/imageFit, как в "Каталог направлений курсов"),
- * баннер заявки, футер.
+ * Hero и крошки как в archive-course.php (/kursy/), карточки и сетка — как на странице
+ * направления (template-parts/course/card-direction.php), баннер заявки, футер.
  */
 global $wp_query;
 
@@ -25,7 +24,7 @@ add_action('rcpk_internal_header_hero', function () use ($action, $title, $filte
 });
 get_header(); ?>
 
-<main class="courses-page">
+<main class="courses-page rcpk-dir">
 
     <!-- Контейнер как на остальных страницах сайта: section--u-i1mm52hsj + div--u-ihuo14hdq -->
     <div class="section section--u-i1mm52hsj rcpk-container--top">
@@ -38,7 +37,7 @@ get_header(); ?>
         </div>
     </div>
 
-    <!-- Результаты поиска — та же вёрстка (blocklist/imageFit), что и на странице направлений -->
+    <!-- Результаты поиска — карточки как на странице направления (card-direction) -->
     <div class="section section--u-i1mm52hsj">
         <div class="div div--u-ihuo14hdq">
             <div class="heading heading--u-iwz7id95u">
@@ -49,15 +48,11 @@ get_header(); ?>
                     <p>Введите название курса или специальность.</p>
                 <?php elseif ($wp_query->have_posts()) : ?>
                     <p class="courses-results__count">Найдено курсов: <?php echo (int) $wp_query->found_posts; ?></p>
-                    <div class="blocklist blocklist--u-iv7qintoh">
-                        <div class="blocklist__items_wrapper blocklist__items_wrapper--u-ingho8az2">
-                            <div class="blocklist__list blocklist__list--u-iditg5wka">
-                                <?php while ($wp_query->have_posts()) : $wp_query->the_post(); ?>
-                                    <?php get_template_part('template-parts/course/card-blocklist'); ?>
-                                <?php endwhile; ?>
-                                <?php wp_reset_postdata(); ?>
-                            </div>
-                        </div>
+                    <div class="rcpk-dir__grid">
+                        <?php while ($wp_query->have_posts()) : $wp_query->the_post(); ?>
+                            <?php get_template_part('template-parts/course/card-direction'); ?>
+                        <?php endwhile; ?>
+                        <?php wp_reset_postdata(); ?>
                     </div>
                     <nav class="courses-results__pagination">
                         <?php echo rcpk_course_pagination($wp_query, $filters); ?>

@@ -157,14 +157,9 @@ get_header(); ?>
             <div class="rcpk-dir__filters" data-dir-filters>
             <section class="rcpk-dir__block">
                 <h2 class="rcpk-dir__subtitle">Поиск</h2>
-                <form class="rcpk-dir__search" method="get" action="<?php echo esc_url($base_url); ?>#courses">
-                    <input type="search" name="q" class="rcpk-dir__search-input" placeholder="Название курса или специальность" value="<?php echo esc_attr($filter_q); ?>">
-                    <?php if ($filter_hours) : ?>
-                        <input type="hidden" name="chasy" value="<?php echo esc_attr($filter_hours); ?>">
-                    <?php endif; ?>
-                    <?php if ($filter_tag !== '') : ?>
-                        <input type="hidden" name="teg" value="<?php echo esc_attr($filter_tag); ?>">
-                    <?php endif; ?>
+                <?php // Поиск — по всем курсам, на общей странице /kursy/poisk/ (search-course.php) ?>
+                <form class="rcpk-dir__search" method="get" action="<?php echo esc_url(rcpk_course_search_url()); ?>">
+                    <input type="search" name="q" class="rcpk-dir__search-input" placeholder="Название курса или специальность" value="<?php echo esc_attr($filter_q); ?>" required>
                     <button type="submit" class="rcpk-dir__search-button">Найти</button>
                 </form>
             </section>

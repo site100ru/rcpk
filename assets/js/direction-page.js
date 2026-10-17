@@ -64,7 +64,7 @@
         });
     });
 
-    // AJAX-фильтры (часы, теги, поиск): страница запрашивается целиком и из неё берутся зоны data-dir-*,
+    // AJAX-фильтры (часы, теги; поиск уходит на /kursy/poisk/): страница запрашивается целиком и из неё берутся зоны data-dir-*,
     // так ответ совпадает с обычной загрузкой (и с кэшем страниц). Без JS работают обычные ссылки.
     var zones = ['[data-dir-filters]', '[data-dir-results]', '[data-dir-seo]'];
     var results = document.querySelector('[data-dir-results]');
@@ -126,19 +126,6 @@
             var url = new URL(link.href, location.href);
             if (!isFilterUrl(url)) { return; } // дочерние категории — обычный переход на свою страницу
             e.preventDefault();
-            load(url.toString(), true);
-        });
-
-        document.addEventListener('submit', function (e) {
-            var form = e.target.closest('.rcpk-dir__search');
-            if (!form) { return; }
-            e.preventDefault();
-            var url = new URL(form.getAttribute('action') || location.href, location.href);
-            url.search = '';
-            new FormData(form).forEach(function (value, key) {
-                value = String(value).trim();
-                if (value !== '') { url.searchParams.set(key, value); }
-            });
             load(url.toString(), true);
         });
 
