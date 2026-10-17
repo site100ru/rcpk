@@ -159,13 +159,17 @@ $(document).ready(function () {
         'display': 'none'
     });
 
-    // Открытие окон - определяем по тексту кнопки
-    $('.link-universal--u-ikofmis2h, [role="button"]').on('click', function () {
-        var buttonText = $(this).text().trim();
+    // Открытие окон - по data-popup (явный id) или по тексту кнопки
+    $(document).on('click', '.link-universal--u-ikofmis2h, [role="button"], [data-popup]', function (e) {
+        var $btn = $(this);
+        var explicitId = $btn.attr('data-popup') || $btn.closest('[data-popup]').attr('data-popup');
+        var buttonText = $btn.text().trim();
         var popupId;
-        
-        // Определяем какое окно открыть по тексту кнопки
-        if (buttonText.includes('Записаться') || buttonText.includes('Записатьс')) {
+
+        if (explicitId) {
+            e.preventDefault();
+            popupId = explicitId;
+        } else if (buttonText.includes('Записаться') || buttonText.includes('Записатьс')) {
             popupId = 'popup-course';
         } else if (buttonText.includes('Оставить заявку')) {
             popupId = 'popup-course';
@@ -174,7 +178,7 @@ $(document).ready(function () {
         } else {
             popupId = 'popup-course'; // по умолчанию
         }
-        
+
         var $popup = $('#' + popupId + ' .mosaic-popup__inner-bg--u-iim3w5fa1');
         $popup.css('display', 'flex');
         setTimeout(function () {

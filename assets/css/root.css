@@ -940,6 +940,71 @@ p:first-child {
     padding: 20px;
 }
 
+/* Блок «Сколково» в шапке hero (template-parts/header/skolkovo.php) */
+.rcpk-sk {
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.rcpk-sk__link {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 200ms ease;
+}
+
+.rcpk-sk__link:hover {
+    color: #fff;
+    opacity: 0.85;
+}
+
+.rcpk-sk__logo,
+.rcpk-sk__logo img {
+    display: block;
+}
+
+.rcpk-sk__logo img {
+    width: auto;
+    height: 48px;
+}
+
+.rcpk-sk__text {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #fff;
+}
+
+@media (max-width: 1500px) {
+    .rcpk-sk__logo img {
+        height: 40px;
+    }
+
+    .rcpk-sk__text {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 767px) {
+    .rcpk-sk {
+        width: 100%;
+        margin: 40px 0 80px;
+    }
+
+    .rcpk-sk__logo img {
+        width: 102px;
+        height: auto;
+    }
+
+    .rcpk-sk__text {
+        max-width: 300px;
+        font-size: 16px;
+    }
+}
+
 .content--u-iwo7oqyms :where(figure) {
     margin: auto !important;
 }

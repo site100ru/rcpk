@@ -1,0 +1,1095 @@
+/* Стили страницы направления курсов (taxonomy-course_direction.php).
+   Общие блоки (hero, mosaic-form, blocklist) стилизованы в style.css — здесь только то, чего там нет. */
+
+/* Ширина/отступы задаются контейнерами .section--u-i1mm52hsj + .div--u-ihuo14hdq
+   (те же классы, что и на остальных страницах сайта) — .courses-page сам ничего не ограничивает. */
+
+/* Первый экран под hero — без верхнего паддинга section--u-i1mm52hsj (80px), т.к. сразу после hero */
+.rcpk-container--top {
+    padding-top: 40px;
+}
+
+/* --- hero: на весь первый экран, контент прижат к низу (как на GetCourse) --- */
+.section--u-iuqh7gk14 {
+    min-height: 100vh;
+    justify-content: space-between;
+    box-sizing: border-box;
+
+    /* На страницах курсов показываем исходное hero-изображение без
+       затемняющих градиентов из общего style.css. Этот файл подключается
+       только для архива/таксономий/поиска и отдельных страниц курсов. */
+    background-color: transparent;
+    background-image: var(--image-i8gf689jt);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.section--u-iuqh7gk14.rcpk-hero--sm {
+    min-height: max(50vh, 480px);
+    justify-content: flex-start;
+}
+
+.section--u-iuqh7gk14.rcpk-hero--sm .div--u-ie6zm4gfm {
+    margin-top: 60px !important;
+}
+
+.single-course .section--u-iuqh7gk14.rcpk-hero--sm .div--u-ie6zm4gfm {
+    margin-top: 80px !important;
+}
+
+.div--u-ie6zm4gfm {
+    gap: 20px;
+}
+
+.rcpk-hero-search {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+    max-width: 560px;
+    margin-top: 10px;
+}
+
+/* Повторяет .mosaic-form__text (style.css) — независимая копия,
+   т.к. поиск в hero не обёрнут в .mosaic-form--u-i.../, где эти стили заданы. */
+.rcpk-hero-search__input {
+    flex: 1 1 320px;
+    display: block;
+    box-sizing: border-box;
+    height: 51px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 0 25px;
+    background-color: rgba(255, 255, 255, 0.08);
+    font-size: 14px;
+    color: #fff;
+}
+
+.rcpk-hero-search__input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.rcpk-hero-search__button {
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    height: 51px;
+    padding: 0 32px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(var(--color-iaxhotjhj, 242, 219, 182), 1);
+    color: #1a1a1a;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 200ms ease;
+}
+
+.rcpk-hero-search__button:hover {
+    opacity: 0.85;
+}
+
+/* --- хлебные крошки --- */
+.courses-page__crumbs {
+    margin: 24px 0;
+    font-size: 13px;
+    color: var(--g-base-color-text-l-20, #7b7b7b);
+}
+
+.courses-page__crumbs a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.courses-page__crumbs a:hover {
+    text-decoration: underline;
+}
+
+.courses-page__description,
+.courses-page__seo-text {
+    margin: 24px 0;
+    line-height: 1.6;
+}
+
+/* --- популярные курсы: пилюли --- */
+.courses-page__popular {
+    margin: 32px 0;
+}
+
+.courses-page__popular-title {
+    font-size: 4vw;
+    line-height: 3vw;
+    font-weight: 600;
+    color: rgba(var(--color-i1ryzywcy), 0.83);
+    margin-bottom: 16px;
+}
+
+.courses-page__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 60px;
+}
+
+@media (max-width: 767px) {
+    .courses-page__pills {
+        margin-top: 20px;
+    }
+}
+
+.courses-page__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 5px;
+    background: rgba(var(--color-iedie37e9), 1);
+    color: rgba(var(--color-ikjp9xkp9), 1);
+    font-size: 14px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 200ms ease, color 200ms ease;
+}
+
+.courses-page__pill:hover {
+    background: rgba(var(--color-i56qyntgh), 1);
+    color: rgba(var(--color-ip4ra66j6), 1);
+}
+
+.courses-page__pill-arrow {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+/* --- фильтр (template-parts/course/filter.php) --- */
+.courses-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+    margin: 24px 0;
+    padding: 20px;
+    background: var(--g-base-color-grey-l-46, #f5f5f5);
+    border-radius: 12px;
+}
+
+.courses-filter input[type="search"] {
+    flex: 1 1 260px;
+    padding: 12px 16px;
+    border: 1px solid var(--g-base-color-border, #c5c5c5);
+    border-radius: 8px;
+}
+
+.courses-filter__group {
+    border: none;
+    padding: 0;
+    margin: 0;
+    min-width: 160px;
+}
+
+.courses-filter__group legend {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.courses-filter__group label {
+    display: block;
+    font-size: 13px;
+    margin: 4px 0;
+    cursor: pointer;
+}
+
+.courses-filter select {
+    padding: 12px 14px;
+    border: 1px solid var(--g-base-color-border, #c5c5c5);
+    border-radius: 8px;
+}
+
+.courses-filter button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    background: var(--g-base-color-link, #15c);
+    color: #fff;
+    cursor: pointer;
+}
+
+/* --- карточки курсов --- */
+.courses-results__count {
+    margin: 20px 0;
+    color: var(--g-base-color-text-l-20, #7b7b7b);
+    font-size: 14px;
+}
+
+.courses-results__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+/* .course-card-blocklist__meta — в direction-cards.css (нужен и на главной) */
+
+.course-card {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.course-card:hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.course-card__title {
+    font-size: 18px;
+    margin: 0 0 8px;
+}
+
+.course-card__title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.course-card__terms {
+    font-size: 12px;
+    color: var(--g-base-color-link, #15c);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.course-card__excerpt {
+    font-size: 14px;
+    color: var(--g-base-color-text-l-20, #7b7b7b);
+    margin-bottom: 12px;
+    flex-grow: 1;
+}
+
+.course-card__meta {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--g-base-color-text, #484848);
+}
+
+.course-card__meta-item--price {
+    font-weight: 700;
+    color: var(--g-base-color-text-d-8, #333);
+}
+
+.course-card__more {
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 10px 22px;
+    border-radius: 8px;
+    background: var(--g-base-color-link, #15c);
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.courses-results__empty {
+    padding: 40px 0;
+    text-align: center;
+    color: var(--g-base-color-text-l-20, #7b7b7b);
+}
+
+.courses-results__pagination ul {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.courses-page__empty {
+    color: var(--g-base-color-text-l-20, #7b7b7b);
+}
+
+/* --- CTA "Нужна помощь?" (template-parts/course/help-banner.php) --- */
+.rcpk-help-banner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 48px 0;
+    padding: 40px 48px;
+    border-radius: 20px;
+    background-color: rgba(var(--color-iaxhotjhj, 242, 219, 182), 1);
+    overflow: hidden;
+}
+
+.rcpk-help-banner__text,
+.rcpk-help-banner__button {
+    position: relative;
+    z-index: 1;
+}
+
+.rcpk-help-banner__title {
+    margin: 0 0 6px;
+    font-family: Montserrat, sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 44.28px;
+    color: #1a1a1a;
+}
+
+.rcpk-help-banner__subtitle {
+    margin: 0 0 20px;
+    font-size: 15px;
+    color: rgba(26, 26, 26, 0.7);
+}
+
+.rcpk-help-banner__button {
+    display: inline-flex;
+    padding: 20px 25px;
+    border-radius: 50px;
+    background-color: #F4ECDF;
+    color: #523E2E;
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.rcpk-help-banner__decor {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.rcpk-help-banner__decor img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right center;
+    display: block;
+}
+
+@media (max-width: 700px) {
+    .rcpk-help-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        padding: 32px;
+    }
+
+    .rcpk-help-banner__decor {
+        display: none;
+    }
+}
+
+/* =====================================================================
+   Страница направления (taxonomy-course_direction.php) — макет Figma
+   «Archive desktop / Archive mobile». Размеры сняты с макета 1920px.
+   ===================================================================== */
+.rcpk-dir {
+    --dir-bg: #f5f1ea;
+    --dir-beige: #f2dbb6;
+    --dir-banner: #eed5b7;
+    --dir-brown: #523e2e;
+    --dir-brown-l: #655446;
+    --dir-text: #1a1a1a;
+    --dir-muted: #7d7d7d;
+    background: var(--dir-bg);
+    color: var(--dir-text);
+    font-family: Montserrat, sans-serif;
+}
+
+.section--u-iuqh7gk14.rcpk-hero--direction {
+    justify-content: flex-start;
+}
+
+.section--u-iuqh7gk14.rcpk-hero--direction .div--u-ie6zm4gfm {
+    margin-top: clamp(80px, 22vh, 260px);
+}
+
+.rcpk-dir__section.section--u-i1mm52hsj {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.rcpk-dir__section--filters {
+    padding-top: clamp(40px, 5.5vw, 105px) !important;
+}
+
+.rcpk-dir__section--courses {
+    padding-top: clamp(50px, 4.5vw, 85px) !important;
+    padding-bottom: clamp(60px, 6vw, 120px) !important;
+    scroll-margin-top: 20px;
+}
+
+.rcpk-dir__block + .rcpk-dir__block {
+    margin-top: clamp(50px, 5.7vw, 110px);
+}
+
+.rcpk-dir__subtitle {
+    margin: 0 0 32px;
+    font-family: Montserrat, sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--dir-text);
+}
+
+/* --- поиск --- */
+.rcpk-dir__search {
+    display: flex;
+    gap: 16px;
+    max-width: 740px;
+}
+
+.rcpk-dir__search-input {
+    flex: 0 1 588px;
+    min-width: 0;
+    height: 60px;
+    box-sizing: border-box;
+    padding: 0 25px;
+    border: 1px solid var(--dir-beige);
+    border-radius: 30px;
+    background: transparent;
+    font-family: inherit;
+    font-size: 18px;
+    color: var(--dir-text);
+    outline: none;
+    transition: border-color 200ms ease;
+}
+
+.rcpk-dir__search-input::placeholder {
+    color: #8a8580;
+}
+
+.rcpk-dir__search-input:focus {
+    border-color: var(--dir-brown-l);
+}
+
+.rcpk-dir__search-button {
+    flex: 0 0 auto;
+    height: 60px;
+    padding: 0 25px;
+    border: none;
+    border-radius: 30px;
+    background: var(--dir-beige);
+    color: var(--dir-brown);
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease;
+}
+
+.rcpk-dir__search-button:hover {
+    background: var(--dir-brown);
+    color: var(--dir-beige);
+}
+
+/* --- теги-пилюли --- */
+.rcpk-dir__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 23px 24px;
+}
+
+.rcpk-dir__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 30px;
+    box-sizing: border-box;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--dir-beige);
+    color: var(--dir-text);
+    font-size: 18px;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color 200ms ease, color 200ms ease;
+}
+
+.rcpk-dir__pills--hours {
+    gap: 24px;
+}
+
+.rcpk-dir__pills--hours .rcpk-dir__pill {
+    min-height: 28px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.rcpk-dir__pill:hover,
+.rcpk-dir__pill.is-active {
+    background: var(--dir-brown);
+    color: var(--dir-beige);
+}
+
+.rcpk-dir__pill-arrow {
+    flex-shrink: 0;
+}
+
+/* --- баннер акции --- */
+.rcpk-promo {
+    position: relative;
+    margin-top: clamp(50px, 5.5vw, 105px);
+    padding: 50px 52px 50px;
+    border-radius: 24px;
+    background: var(--dir-banner);
+    overflow: hidden;
+}
+
+.rcpk-promo__content {
+    position: relative;
+    z-index: 1;
+    max-width: 620px;
+}
+
+.rcpk-promo__title {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 50px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--dir-text);
+}
+
+.rcpk-promo__title span {
+    color: #6d5d50;
+}
+
+.rcpk-promo__subtitle {
+    margin: 12px 0 22px;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.rcpk-promo__code {
+    padding: 4px;
+    border-radius: 20px;
+    background: #fdf2e3;
+}
+
+.rcpk-promo__code-inner {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    min-height: 68px;
+    box-sizing: border-box;
+    padding: 6px 22px;
+    border: 1.5px dotted var(--dir-brown);
+    border-radius: 16px;
+}
+
+.rcpk-promo__code-label {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--dir-brown);
+}
+
+.rcpk-promo__code-value {
+    flex: 1 1 auto;
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    word-break: break-word;
+}
+
+.rcpk-promo__copy {
+    flex: 0 0 auto;
+    display: inline-flex;
+    padding: 4px;
+    border: none;
+    background: none;
+    color: var(--dir-brown-l);
+    cursor: pointer;
+    transition: color 200ms ease, transform 200ms ease;
+}
+
+.rcpk-promo__copy:hover {
+    color: var(--dir-text);
+}
+
+.rcpk-promo__copy.is-copied {
+    color: #3c8a3f;
+    transform: scale(1.1);
+}
+
+.rcpk-promo__note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 30px 0 14px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    color: #6d5d50;
+}
+
+.rcpk-promo__note svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.rcpk-promo__note span {
+    max-width: 560px;
+}
+
+.rcpk-promo__timer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rcpk-promo__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 16px;
+    background: var(--dir-brown-l);
+    color: #f5f1ea;
+}
+
+.rcpk-promo__unit b {
+    font-size: 50px;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.rcpk-promo__unit span {
+    margin-top: 2px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.rcpk-promo__colon {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.rcpk-promo__colon::before,
+.rcpk-promo__colon::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--dir-text);
+}
+
+.rcpk-promo__decor {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: min(45%, 800px);
+    height: auto;
+    pointer-events: none;
+}
+
+/* --- курсы --- */
+.rcpk-dir__title {
+    margin: 0 0 clamp(36px, 4vw, 80px);
+    font-family: Montserrat, sans-serif;
+    font-size: 70px;
+    font-weight: 600;
+    line-height: 1;
+    color: #000;
+}
+
+[data-dir-results] {
+    transition: opacity 200ms ease;
+}
+
+[data-dir-results].is-loading {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.rcpk-dir__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 44px clamp(20px, 2.9vw, 56px);
+}
+
+.rcpk-dir__empty {
+    font-size: 18px;
+    color: var(--dir-muted);
+}
+
+.rcpk-dir__empty a {
+    color: var(--dir-brown);
+    text-decoration: underline;
+}
+
+.rcpk-dcard {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.rcpk-dcard__top {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 120px;
+    box-sizing: border-box;
+    padding: 0 12px 30px 30px;
+    border-radius: 20px;
+    background-color: var(--dir-brown-l);
+    overflow: hidden;
+}
+
+.rcpk-dcard__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rcpk-dcard__hours {
+    position: relative;
+    z-index: 1;
+    padding: 6px 10px;
+    border-radius: 15px;
+    background: var(--dir-beige);
+    color: var(--dir-brown);
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.rcpk-dcard__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 26px 30px 30px;
+}
+
+.rcpk-dcard__title {
+    margin: 0 0 16px;
+    font-family: Montserrat, sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.rcpk-dcard__title a {
+    color: var(--dir-text);
+    text-decoration: none;
+}
+
+.rcpk-dcard__title a:hover {
+    color: var(--dir-brown-l);
+}
+
+.rcpk-dcard__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--dir-muted);
+}
+
+.rcpk-dcard__meta span {
+    font-weight: 500;
+    color: var(--dir-text);
+}
+
+.rcpk-dcard__price {
+    margin: 12px 0 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--dir-muted);
+}
+
+.rcpk-dcard__price b {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dir-brown);
+}
+
+.rcpk-dcard__actions {
+    margin-top: auto;
+    padding-top: 40px;
+}
+
+.rcpk-dcard__btn {
+    display: inline-flex;
+    align-items: center;
+    height: 60px;
+    box-sizing: border-box;
+    padding: 0 25px;
+    border-radius: 30px;
+    background: var(--dir-beige);
+    color: var(--dir-brown);
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 200ms ease, color 200ms ease;
+}
+
+.rcpk-dcard__btn:hover {
+    background: var(--dir-brown);
+    color: var(--dir-beige);
+}
+
+.rcpk-dcard__btn .text {
+    color: inherit;
+    font: inherit;
+}
+
+/* --- кнопка «Вверх» --- */
+.rcpk-to-top {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--dir-brown);
+    color: var(--dir-beige);
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px);
+    transition: opacity 250ms ease, transform 250ms ease, visibility 250ms;
+}
+
+/* блок «стрелка + подпись» — 60×60 по макету: 40 (стрелка) + 8 + 12 (текст) */
+.rcpk-to-top__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 60px;
+    height: 60px;
+}
+
+.rcpk-to-top__inner svg {
+    flex-shrink: 0;
+    width: 30px;
+    height: 40px;
+}
+
+.rcpk-to-top__label {
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+.rcpk-to-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+.rcpk-to-top:hover {
+    background: var(--dir-brown-l);
+}
+
+@media (max-width: 1500px) {
+    .rcpk-dir__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1100px) {
+    .rcpk-dir__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .rcpk-promo__decor {
+        opacity: 0.35;
+    }
+}
+
+@media (max-width: 767px) {
+    .rcpk-dir__section.section--u-i1mm52hsj {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .rcpk-dir__subtitle {
+        margin-bottom: 26px;
+    }
+
+    .rcpk-dir__search {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .rcpk-dir__search-input {
+        flex: 0 0 auto;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .rcpk-dir__pills {
+        gap: 23px 24px;
+    }
+
+    /* Часы — сетка в 2 колонки, кнопки на всю ширину колонки (макет Archive mobile) */
+    .rcpk-dir__pills--hours {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .rcpk-dir__pills--hours .rcpk-dir__pill {
+        justify-content: center;
+        width: 100%;
+        min-height: 28px;
+        padding: 4px 8px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .rcpk-dir__pill {
+        max-width: 100%;
+    }
+
+    .rcpk-promo {
+        padding: 46px 12px 46px;
+        border-radius: 24px;
+    }
+
+    .rcpk-promo__title {
+        font-size: 40px;
+        line-height: 1.1;
+    }
+
+    .rcpk-promo__br,
+    .rcpk-promo__code-label,
+    .rcpk-promo__decor {
+        display: none;
+    }
+
+    .rcpk-promo__subtitle {
+        font-size: 22px;
+    }
+
+    .rcpk-promo__code-inner {
+        gap: 12px;
+        min-height: 66px;
+        padding: 6px 16px 6px 20px;
+    }
+
+    .rcpk-promo__code-value {
+        font-size: 32px;
+    }
+
+    .rcpk-promo__note {
+        margin-top: 26px;
+        font-size: 16px;
+    }
+
+    .rcpk-promo__timer {
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .rcpk-promo__unit {
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+    }
+
+    .rcpk-promo__unit b {
+        font-size: 26px;
+    }
+
+    .rcpk-promo__unit span {
+        font-size: 8px;
+    }
+
+    .rcpk-promo__colon {
+        gap: 10px;
+    }
+
+    .rcpk-promo__colon::before,
+    .rcpk-promo__colon::after {
+        width: 7px;
+        height: 7px;
+    }
+
+    .rcpk-dir__grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 46px;
+    }
+
+    .rcpk-dcard__body {
+        padding: 26px 30px 30px;
+    }
+
+    .rcpk-dcard__meta li span {
+        display: block;
+    }
+
+    .rcpk-dcard__actions {
+        padding-top: 22px;
+    }
+
+    .rcpk-dcard__btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .rcpk-to-top {
+        right: 16px;
+        bottom: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .rcpk-hero-search {
+        flex-direction: column;
+    }
+
+    .rcpk-hero-search__input {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .rcpk-hero-search__button {
+        width: 100%;
+    }
+}

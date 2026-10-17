@@ -1,8 +1,10 @@
 /*
-Theme Name: rcpk
+Theme Name: rcpk62
 Author: site100.ru
 Description: Тема для сайта курсов повышения квалификации
 Version: 1.0
 */
 
 /* Основные стили подключаются через functions.php */
+
+.test {}

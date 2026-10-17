@@ -67,15 +67,24 @@ function mytheme_enqueue_scripts()
     wp_enqueue_style('mytheme-root', get_template_directory_uri() . '/assets/css/root.css');
     wp_enqueue_style('mytheme-animate', get_template_directory_uri() . '/assets/css/animate.min.css');
 
-    // Стили для главной страницы
-    if (is_front_page()) {
+    // Стили для главной страницы (и страницы направления курсов — использует те же блоки: hero, mosaic-form, blocklist)
+    if (is_front_page() || is_tax('course_direction') || is_tax('course_tag') || is_post_type_archive('course') || is_singular('course')) {
         wp_enqueue_style('mytheme-style', get_template_directory_uri() . '/assets/css/style.css');
         wp_enqueue_style('slick-css', get_template_directory_uri() . '/assets/css/slick/slick.css');
         wp_enqueue_style('slick-theme', get_template_directory_uri() . '/assets/css/slick/slick-theme.css');
-    } else {
+    }
+    if (is_front_page() || is_tax('course_direction') || is_tax('course_tag') || is_post_type_archive('course') || is_singular('course') || get_query_var('rcpk_course_search')) {
+        wp_enqueue_style('mytheme-style', get_template_directory_uri() . '/assets/css/style.css');
+        wp_enqueue_style('rcpk-direction-cards', get_template_directory_uri() . '/assets/css/direction-cards.css', array('mytheme-style'), filemtime(get_template_directory() . '/assets/css/direction-cards.css'));
+    }
+    if (!is_front_page()) {
         // Стили для внутренних страниц
         wp_enqueue_style('mytheme-o-kurse', get_template_directory_uri() . '/assets/css/o-kurse.css');
         wp_enqueue_style('mytheme-archive-kurse', get_template_directory_uri() . '/assets/css/archive-kurse.css');
+    }
+    if (is_tax('course_direction') || is_tax('course_tag') || is_post_type_archive('course') || is_singular('course') || get_query_var('rcpk_course_search')) {
+        wp_enqueue_style('mytheme-style', get_template_directory_uri() . '/assets/css/style.css');
+        wp_enqueue_style('rcpk-course-direction', get_template_directory_uri() . '/assets/css/course-direction.css', array('mytheme-style'), filemtime(get_template_directory() . '/assets/css/course-direction.css'));
     }
 
     // Отключаем стандартный jQuery и подключаем свой
@@ -449,9 +458,8 @@ function mytheme_customize_register($wp_customize)
     $wp_customize->add_setting('mytheme_counter_head', array(
         'default'           => '',
         'transport'         => 'refresh',
-        // Preserve script tags; only users allowed to save unfiltered HTML can edit this.
-        'sanitize_callback' => null,
-        'capability'        => 'unfiltered_html',
+        'sanitize_callback' => 'wp_kses_post',
+        'capability'        => 'edit_theme_options',
     ));
     $wp_customize->add_control('mytheme_counter_head', array(
         'label'       => 'Код счетчика (в <head>)',
@@ -464,9 +472,8 @@ function mytheme_customize_register($wp_customize)
     $wp_customize->add_setting('mytheme_counter_body', array(
         'default'           => '',
         'transport'         => 'refresh',
-        // Preserve script tags; only users allowed to save unfiltered HTML can edit this.
-        'sanitize_callback' => null,
-        'capability'        => 'unfiltered_html',
+        'sanitize_callback' => 'wp_kses_post',
+        'capability'        => 'edit_theme_options',
     ));
     $wp_customize->add_control('mytheme_counter_body', array(
         'label'       => 'Код счетчика (перед </body>)',
@@ -887,6 +894,73 @@ function mytheme_customize_register($wp_customize)
 			'section'     => 'mytheme_licenses',
 		)
 	));
+
+	// СЕКЦИЯ: GetCourse API
+	$wp_customize->add_section('mytheme_getcourse', array(
+		'title'    => 'GetCourse API',
+		'priority' => 220,
+	));
+
+	$wp_customize->add_setting('mytheme_gc_account_url', array(
+		'default'           => '',
+		'transport'         => 'refresh',
+		'sanitize_callback' => 'esc_url_raw',
+	));
+	$wp_customize->add_control('mytheme_gc_account_url', array(
+		'label'       => 'Адрес аккаунта GetCourse',
+		'description' => 'Например: https://имя-аккаунта.getcourse.ru (без слэша в конце)',
+		'section'     => 'mytheme_getcourse',
+		'type'        => 'url',
+	));
+
+	$wp_customize->add_setting('mytheme_gc_secret_key', array(
+		'default'           => '',
+		'transport'         => 'refresh',
+		'sanitize_callback' => 'sanitize_text_field',
+	));
+	$wp_customize->add_control('mytheme_gc_secret_key', array(
+		'label'       => 'Секретный ключ API',
+		'description' => 'GetCourse: Настройки аккаунта → Интеграции → API. Ключ виден только администратору сайта.',
+		'section'     => 'mytheme_getcourse',
+		'type'        => 'text',
+	));
+
+	// СЕКЦИЯ: Каталог курсов (/kursy/)
+	$wp_customize->add_section('rcpk_catalog_hero', array(
+		'title'    => 'Каталог курсов (/kursy/)',
+		'priority' => 230,
+	));
+
+	$wp_customize->add_setting('rcpk_catalog_hero_image', array(
+		'default'           => '',
+		'transport'         => 'refresh',
+		'sanitize_callback' => 'esc_url_raw',
+	));
+	$wp_customize->add_control(new WP_Customize_Image_Control(
+		$wp_customize,
+		'rcpk_catalog_hero_image',
+		array(
+			'label'       => 'Фоновое изображение hero-блока',
+			'description' => 'Показывается на главном экране страницы /kursy/ (каталог направлений).',
+			'section'     => 'rcpk_catalog_hero',
+		)
+	));
+
+	$wp_customize->add_setting('rcpk_neutral_hero_image', array(
+		'default'           => '',
+		'transport'         => 'refresh',
+		'sanitize_callback' => 'esc_url_raw',
+	));
+	$wp_customize->add_control(new WP_Customize_Image_Control(
+		$wp_customize,
+		'rcpk_neutral_hero_image',
+		array(
+			'label'       => 'Нейтральное изображение hero-блока',
+			'description' => 'Используется на страницах тегов и результатов поиска. Если не выбрано, используется фон каталога /kursy/.',
+			'section'     => 'rcpk_catalog_hero',
+		)
+	));
+
 }
 add_action('customize_register', 'mytheme_customize_register');
 
@@ -1108,6 +1182,7 @@ function register_image_caption_block()
             )
         )
     ));
+
 }
 add_action('init', 'register_image_caption_block');
 
@@ -1180,6 +1255,14 @@ add_filter('the_content', 'wrap_strong_tags_in_span', 20);
  * Перевод языка при сохранении
  */
 require_once get_template_directory() . '/inc/transliteration.php';
+
+// Курсы: направления, поиск, фильтр, запись и оплата через GetCourse
+require_once get_template_directory() . '/inc/courses/setup.php';
+require_once get_template_directory() . '/inc/courses/meta.php';
+require_once get_template_directory() . '/inc/courses/query.php';
+require_once get_template_directory() . '/inc/courses/promo.php';
+require_once get_template_directory() . '/inc/courses/getcourse.php';
+require_once get_template_directory() . '/inc/courses/import.php';
 
 
 // Кастомный Walker для меню

@@ -2747,6 +2747,21 @@ input[type='text'][name='_cn'] {
 	margin-bottom: 3.33333em;
 }
 
+/* Приводим жирный текст к единому виду независимо от разметки-источника
+   (обычный <strong> из шаблона и <span style="font-weight:bold"><strong> из вставленного контента) */
+.g-page-article__text strong,
+.g-page-article__text b {
+	font-weight: 700;
+	font-size: inherit;
+	color: inherit;
+}
+
+.g-page-article__text span[style*="font-weight"] {
+	font-weight: inherit !important;
+	font-size: inherit !important;
+	color: inherit !important;
+}
+
 .g-page-article__top-panel {
 	margin-bottom: 1.33333em;
 }

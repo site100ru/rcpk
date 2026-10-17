@@ -355,7 +355,7 @@
                                             </span>
                                         </div>
                                         <div class="mosaic-form__body mosaic-form__body--u-ihp67drj4">
-                                            <input type="email" name="email" placeholder="E-mail" class="mosaic-form__text mosaic-form__text--u-izmi4wbgt" />
+                                            <input type="email" name="email" placeholder="E-mail *" class="mosaic-form__text mosaic-form__text--u-izmi4wbgt" required />
                                         </div>
                                     </div>
                                     
@@ -373,24 +373,7 @@
                                                 style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;"
                                                 required>
                                                 <option value="">Выберите направление</option>
-                                                <?php
-                                                $args = array(
-                                                    'post_type'      => 'catalog',
-                                                    'posts_per_page' => -1,
-                                                    'orderby'        => 'title',
-                                                    'order'          => 'ASC'
-                                                );
-
-                                                $query = new WP_Query($args);
-
-                                                if ($query->have_posts()) {
-                                                    while ($query->have_posts()) {
-                                                        $query->the_post();
-                                                            echo '<option value="' . esc_attr(get_the_title()) . '">' . esc_html(get_the_title()) . '</option>';
-                                                    }
-                                                }
-                                                wp_reset_postdata();
-                                                ?>
+                                                <?php rcpk_direction_select_options(); ?>
                                             </select>
                                         </div>
                                     </div>
@@ -450,7 +433,14 @@
             </div>
 
             <!-- HEADER для внутренних страниц -->
-            <div class="section section--u-iuqh7gk14">
+            <?php
+            $rcpk_hero_bg = isset($GLOBALS['rcpk_hero_bg_image']) ? $GLOBALS['rcpk_hero_bg_image'] : '';
+            $rcpk_hero_bg_style = $rcpk_hero_bg
+                ? ' style="--image-i8la7sfzv:url(' . esc_url($rcpk_hero_bg) . ');--image-i8gf689jt:url(' . esc_url($rcpk_hero_bg) . ');"'
+                : '';
+            $rcpk_hero_extra_class = !empty($GLOBALS['rcpk_hero_extra_class']) ? ' ' . esc_attr($GLOBALS['rcpk_hero_extra_class']) : '';
+            ?>
+            <div class="section section--u-iuqh7gk14<?php echo $rcpk_hero_extra_class; ?>"<?php echo $rcpk_hero_bg_style; ?>>
                 <div class="div div--u-ibl6xyh2p">
                     <div class="section section--u-ie41r58os">
                         <div class="div div--u-ige14ztwb">
@@ -526,15 +516,7 @@
                             -->
 							
 							<!-- skolkovo -->
-                            <div class="div div--u-if8m6hfjg">
-                                <div class="list list--u-id9txhv53">
-                                    <div class="list__item list__item--u-izm0hwedg">
-                                        <a href="/skolkovo">
-                                            <img src="https://rcpk.site/wp-content/uploads/2026/03/skolkovo-logo.png">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php get_template_part('template-parts/header/skolkovo'); ?>
 
                             <!-- WhatsApp -->
 <!--                             <?php if (get_theme_mod('mytheme_whatsapp')): ?>
@@ -708,5 +690,7 @@
                             </div>
                         </div>
                     </div>
+
+                    <?php do_action('rcpk_internal_header_hero'); ?>
                 </div>
             </div>

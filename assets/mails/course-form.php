@@ -10,6 +10,13 @@ if($_POST){
     }
     $Return = getCaptchaCourse($_POST['g-recaptcha-response']);
 
+    if(!filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL)){
+        $_SESSION['win'] = 1;
+        $_SESSION['recaptcha'] = '<p><strong>Укажите корректный e-mail</strong><br>Без него мы не сможем создать вам личный кабинет.</p>';
+        header("Location: ".$_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
     if($Return->success == true && $Return->score > .5){
         $fio = isset($_POST['fio']) ? $_POST['fio'] : '';
         $tel = isset($_POST['tel']) ? $_POST['tel'] : '';

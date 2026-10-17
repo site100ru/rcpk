@@ -1,0 +1,22 @@
+/* Карточки направлений и курсов в вёрстке blocklist (главная, /kursy/, страницы направлений).
+   Подключается вместе со style.css — здесь только то, чего там нет. */
+
+/* .blocklist__item_text--u-iz7j2hzkl (style.css) — display:flex в строку,
+   из-за чего пункты слипаются в одну линию; для карточки выводим их
+   в столбец, каждый пункт с новой строки. */
+.course-card-blocklist__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    overflow-wrap: anywhere;
+}
+
+/* Заголовок карточки направления — ссылка без подчёркивания и фиолетового цвета */
+.rcpk-directions .blocklist__item_title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.rcpk-directions .blocklist__item_title a:hover {
+    text-decoration: underline;
+}
