@@ -44,7 +44,8 @@ add_action('customize_register', function ($wp_customize) {
 });
 
 add_action('wp_enqueue_scripts', function () {
-    if (!is_tax('course_direction')) {
+    // Направления, каталог /kursy/ и поиск /kursy/poisk/ — везде есть баннер акции и кнопка «Вверх»
+    if (!is_tax('course_direction') && !is_post_type_archive('course') && !get_query_var('rcpk_course_search')) {
         return;
     }
     $path = get_template_directory() . '/assets/js/direction-page.js';

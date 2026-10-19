@@ -88,11 +88,41 @@ add_action('pre_get_posts', function ($query) {
         }
         $query->set($key, $value);
     }
+
+    // chasy — фильтр «Количество часов» на /kursy/poisk/ (кнопки часов с /kursy/ и со страницы поиска)
+    $hours = rcpk_course_hours_from_request();
+    if ($query->get('rcpk_course_search') && $hours) {
+        $query->set('meta_query', array(array(
+            'key'   => '_rcpk_hours',
+            'value' => $hours,
+            'type'  => 'NUMERIC',
+        )));
+    }
 });
 
-// Страница поиска без запроса не должна выводить весь каталог
+function rcpk_course_hours_from_request()
+{
+    return isset($_GET['chasy']) ? absint($_GET['chasy']) : 0;
+}
+
+// Все значения «Количество часов» у опубликованных курсов, по возрастанию
+function rcpk_course_hours_list()
+{
+    global $wpdb;
+    $values = $wpdb->get_col($wpdb->prepare(
+        "SELECT DISTINCT CAST(pm.meta_value AS UNSIGNED) AS h FROM {$wpdb->postmeta} pm
+         INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+         WHERE pm.meta_key = %s AND p.post_type = 'course' AND p.post_status = 'publish'
+           AND CAST(pm.meta_value AS UNSIGNED) > 0
+         ORDER BY h ASC",
+        '_rcpk_hours'
+    ));
+    return array_map('intval', $values);
+}
+
+// Страница поиска без запроса (и без фильтра по часам) не должна выводить весь каталог
 add_filter('posts_where', function ($where, $query) {
-    if ($query->is_main_query() && $query->get('rcpk_course_search') && $query->get('s') === '') {
+    if ($query->is_main_query() && $query->get('rcpk_course_search') && $query->get('s') === '' && !rcpk_course_hours_from_request()) {
         $where .= ' AND 1=0';
     }
     return $where;
@@ -185,6 +215,9 @@ function rcpk_course_pagination($query, $filters, $base = '')
     }
     if ($filters['sort'] !== '') {
         $add_args['sort'] = $filters['sort'];
+    }
+    if (get_query_var('rcpk_course_search') && rcpk_course_hours_from_request()) {
+        $add_args['chasy'] = rcpk_course_hours_from_request();
     }
 
     return paginate_links(array(
