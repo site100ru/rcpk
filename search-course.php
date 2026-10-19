@@ -2,7 +2,8 @@
 /**
  * Поиск курсов: /kursy/poisk/?q=...
  * Первый экран и блоки под ним — как на странице направления (taxonomy-course_direction.php):
- * hero без поиска, ниже «Поиск», «Популярные направления», баннер акции; затем результаты карточками card-direction.
+ * hero без поиска, ниже «Поиск» и «Популярные направления»; затем результаты карточками card-direction.
+ * ?chasy=N — курсы с этим количеством часов (кнопки «Количество часов» на /kursy/).
  */
 global $wp_query;
 
@@ -28,7 +29,11 @@ get_header(); ?>
 
 <main class="courses-page rcpk-dir">
 
-    <?php get_template_part('template-parts/course/dir-filters', null, array('search_value' => $filters['q'], 'hours' => $hours)); ?>
+    <?php get_template_part('template-parts/course/dir-filters', null, array(
+        'search_value' => $filters['q'],
+        'show_hours'   => false,
+        'show_promo'   => false,
+    )); ?>
 
     <div class="section section--u-i1mm52hsj rcpk-dir__section rcpk-dir__section--courses" id="courses">
         <div class="div div--u-ihuo14hdq">

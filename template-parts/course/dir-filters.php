@@ -3,13 +3,15 @@
  * Блок под hero, как на странице направления: «Поиск», «Популярные направления», баннер акции.
  * Используется на /kursy/ (archive-course.php) и /kursy/poisk/ (search-course.php).
  *
- * args: search_value — текущая поисковая строка, hours — выбранное «Количество часов».
- * «Количество часов» — все значения по курсам, ведут на /kursy/poisk/?chasy=N (с сохранением q).
+ * args: search_value — текущая поисковая строка;
+ *       show_hours / show_promo — выводить «Количество часов» и баннер акции (по умолчанию да; на поиске — нет).
+ * «Количество часов» — все значения по курсам, ведут на /kursy/poisk/?chasy=N.
  * «Популярные направления» — самые частые теги курсов (страницы тегов).
  */
 $search_value = isset($args['search_value']) ? $args['search_value'] : '';
-$hours_active = isset($args['hours']) ? (int) $args['hours'] : 0;
-$hours_list   = rcpk_course_hours_list();
+$show_hours   = !isset($args['show_hours']) || $args['show_hours'];
+$show_promo   = !isset($args['show_promo']) || $args['show_promo'];
+$hours_list   = $show_hours ? rcpk_course_hours_list() : array();
 
 $popular = get_terms(array(
     'taxonomy'   => 'course_tag',
@@ -29,9 +31,6 @@ $pill_arrow = '<svg class="rcpk-dir__pill-arrow" width="12" height="12" viewBox=
                 <h2 class="rcpk-dir__subtitle">Поиск</h2>
                 <form class="rcpk-dir__search" method="get" action="<?php echo esc_url(rcpk_course_search_url()); ?>">
                     <input type="search" name="q" class="rcpk-dir__search-input" placeholder="Название курса или специальность" value="<?php echo esc_attr($search_value); ?>" required>
-                    <?php if ($hours_active) : // поиск внутри выбранного количества часов ?>
-                        <input type="hidden" name="chasy" value="<?php echo (int) $hours_active; ?>">
-                    <?php endif; ?>
                     <button type="submit" class="rcpk-dir__search-button">Найти</button>
                 </form>
             </section>
@@ -40,18 +39,8 @@ $pill_arrow = '<svg class="rcpk-dir__pill-arrow" width="12" height="12" viewBox=
                 <section class="rcpk-dir__block">
                     <h2 class="rcpk-dir__subtitle">Количество часов</h2>
                     <div class="rcpk-dir__pills rcpk-dir__pills--hours">
-                        <?php foreach ($hours_list as $hours) :
-                            $active = $hours === $hours_active;
-                            $params = array();
-                            if ($search_value !== '') {
-                                $params['q'] = rawurlencode($search_value);
-                            }
-                            if (!$active) {
-                                $params['chasy'] = $hours;
-                            }
-                            // Повторный клик по выбранным часам снимает фильтр; без q и часов — назад в каталог
-                            $url = $params ? add_query_arg($params, rcpk_course_search_url()) . '#courses' : get_post_type_archive_link('course'); ?>
-                            <a class="rcpk-dir__pill<?php echo $active ? ' is-active' : ''; ?>" href="<?php echo esc_url($url); ?>"<?php echo $active ? ' aria-current="true"' : ''; ?>>
+                        <?php foreach ($hours_list as $hours) : ?>
+                            <a class="rcpk-dir__pill" href="<?php echo esc_url(add_query_arg('chasy', $hours, rcpk_course_search_url()) . '#courses'); ?>">
                                 <?php echo esc_html($hours . ' ' . rcpk_plural($hours, 'час', 'часа', 'часов')); ?>
                                 <?php echo $pill_arrow; ?>
                             </a>
@@ -75,7 +64,9 @@ $pill_arrow = '<svg class="rcpk-dir__pill-arrow" width="12" height="12" viewBox=
             <?php endif; ?>
         </div>
 
-        <?php get_template_part('template-parts/course/promo-banner'); ?>
+        <?php if ($show_promo) {
+            get_template_part('template-parts/course/promo-banner');
+        } ?>
 
     </div>
 </div>

@@ -433,6 +433,11 @@
     scroll-margin-top: 20px;
 }
 
+/* /kursy/: каталог направлений после баннера акции — тот же отступ, что у «Курсы» на странице направления */
+.rcpk-dir .rcpk-directions.section--u-i1mm52hsj {
+    padding-top: clamp(50px, 4.5vw, 85px) !important;
+}
+
 .rcpk-dir__block + .rcpk-dir__block {
     margin-top: clamp(50px, 5.7vw, 110px);
 }
