@@ -974,6 +974,7 @@ if (class_exists('WP_Customize_Control')) {
         public function enqueue()
         {
             wp_enqueue_media();
+            wp_enqueue_script('jquery-ui-sortable');
         }
 
         public function render_content()
@@ -994,7 +995,11 @@ if (class_exists('WP_Customize_Control')) {
             <div class="license-repeater-list" id="license-repeater-list-<?php echo $control_id; ?>">
                 <?php foreach ($values as $index => $item) : ?>
                     <div class="license-repeater-item" style="margin-bottom: 15px; padding: 12px; border: 1px solid #ddd; border-radius: 4px; background: #fafafa;">
-                        <p style="margin: 0 0 8px;"><strong>документ <?php echo $index + 1; ?></strong></p>
+                        <p class="license-item-head" style="margin: 0 0 8px; display: flex; align-items: center; gap: 4px; cursor: move;">
+                            <strong style="flex: 1;">документ <span class="license-num"><?php echo $index + 1; ?></span></strong>
+                            <button type="button" class="button button-small license-move-up" title="Переместить выше">↑</button>
+                            <button type="button" class="button button-small license-move-down" title="Переместить ниже">↓</button>
+                        </p>
                         <input type="text"
                             placeholder="Название (напр: Свидетельство СРО)"
                             value="<?php echo esc_attr($item['title'] ?? ''); ?>"
@@ -1105,7 +1110,11 @@ if (class_exists('WP_Customize_Control')) {
                     $control.on('click', '.license-add-item', function() {
                         var count = $list.find('.license-repeater-item').length + 1;
                         var $item = $('<div class="license-repeater-item" style="margin-bottom:15px;padding:12px;border:1px solid #ddd;border-radius:4px;background:#fafafa;">' +
-                            '<p style="margin:0 0 8px;"><strong>документ ' + count + '</strong></p>' +
+                            '<p class="license-item-head" style="margin:0 0 8px;display:flex;align-items:center;gap:4px;cursor:move;">' +
+                                '<strong style="flex:1;">документ <span class="license-num">' + count + '</span></strong>' +
+                                '<button type="button" class="button button-small license-move-up" title="Переместить выше">↑</button>' +
+                                '<button type="button" class="button button-small license-move-down" title="Переместить ниже">↓</button>' +
+                            '</p>' +
                             '<input type="text" placeholder="Название (напр: Свидетельство СРО)" class="license-title widefat" style="margin-bottom:8px;">' +
                             '<p style="margin:0 0 4px;font-size:12px;color:#555;">Картинка-превью:</p>' +
                             '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">' +
@@ -1128,8 +1137,37 @@ if (class_exists('WP_Customize_Control')) {
 
                     $list.on('click', '.license-remove-item', function() {
                         $(this).closest('.license-repeater-item').remove();
+                        renumber();
                         updateValue();
                     });
+
+                    // Порядок документов: кнопки ↑/↓ и перетаскивание за заголовок
+                    function renumber() {
+                        $list.find('.license-num').each(function(i) { $(this).text(i + 1); });
+                    }
+
+                    $list.on('click', '.license-move-up', function() {
+                        var $item = $(this).closest('.license-repeater-item');
+                        $item.prev('.license-repeater-item').before($item);
+                        renumber();
+                        updateValue();
+                    });
+
+                    $list.on('click', '.license-move-down', function() {
+                        var $item = $(this).closest('.license-repeater-item');
+                        $item.next('.license-repeater-item').after($item);
+                        renumber();
+                        updateValue();
+                    });
+
+                    if ($.fn.sortable) {
+                        $list.sortable({
+                            items: '.license-repeater-item',
+                            handle: '.license-item-head',
+                            cancel: 'button, input',
+                            update: function() { renumber(); updateValue(); }
+                        });
+                    }
 
                     $list.on('input', '.license-title', function() {
                         updateValue();

@@ -943,6 +943,15 @@
 }
 
 @media (max-width: 767px) {
+    /* Шапка направления на мобильном — как на Главной (макет Home mobile): без отступа над логотипом */
+    .section--u-iuqh7gk14.rcpk-hero--direction {
+        min-height: auto;
+    }
+
+    .section--u-iuqh7gk14.rcpk-hero--direction .div--u-ie6zm4gfm {
+        margin-top: 0;
+    }
+
     .rcpk-dir__section.section--u-i1mm52hsj {
         padding-left: 12px;
         padding-right: 12px;

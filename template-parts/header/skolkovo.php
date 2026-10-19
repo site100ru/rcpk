@@ -10,10 +10,10 @@ $rcpk_img_dir = get_template_directory_uri() . '/assets/img';
 ?>
 <div class="rcpk-sk">
 	<a class="rcpk-sk__link" href="<?php echo esc_url($rcpk_skolkovo_url); ?>">
-		<picture class="rcpk-sk__logo">
-			<source media="(max-width: 767px)" srcset="<?php echo esc_url($rcpk_img_dir . '/skolkovo-logo-mobile.png'); ?>">
-			<img src="<?php echo esc_url($rcpk_img_dir . '/skolkovo-logo.png'); ?>" alt="Сколково" width="173" height="48">
-		</picture>
+		<!-- Один логотип для всех устройств, как в макетах Home desktop / Home mobile -->
+		<span class="rcpk-sk__logo">
+			<img src="<?php echo esc_url($rcpk_img_dir . '/skolkovo-logo-mobile.png'); ?>" alt="Сколково" width="151" height="48">
+		</span>
 		<span class="rcpk-sk__text">Разрешение на образовательную деятельность</span>
 	</a>
 </div>
