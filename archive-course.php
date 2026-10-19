@@ -14,7 +14,7 @@ get_header(); ?>
 
 <main class="courses-page rcpk-dir">
 
-    <?php get_template_part('template-parts/course/dir-filters'); ?>
+    <?php get_template_part('template-parts/course/dir-filters', null, array('show_popular' => false)); ?>
 
     <!-- Каталог направлений — общий блок с главной страницей -->
     <?php get_template_part('template-parts/catalog-output/catalog-output'); ?>
