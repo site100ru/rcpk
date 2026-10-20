@@ -47,6 +47,10 @@
     background: radial-gradient(rgb(248, 238, 211) 0%, rgba(128, 98, 60, 0.61) 100%);
     font-weight: 500;
     padding: 1.25em 2.375em;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 0 0 30px;
 }
 
 .div--u-ib590tatk.rcpk-course-order-cta {

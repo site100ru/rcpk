@@ -74,12 +74,8 @@ while (have_posts()) : the_post();
 
                             <?php the_content(); ?>
 
-                            <?php if ($price) : ?>
-                                <p class="rcpk-course-price has-text-align-center has-background has-medium-font-size"><strong>Стоимость: </strong><?php echo esc_html(number_format_i18n($price)); ?> рублей</p>
-                            <?php endif; ?>
-
                             <?php if ($document_files) : ?>
-                                <h2>Выдаваемый документ</h2>
+                                <p class="has-medium-font-size"><strong>Выдаваемый документ:</strong> <?php echo esc_html(rcpk_course_meta('document')); ?></p>
                                 <p>
                                     <?php foreach ($document_files as $i => $file_id) : ?>
                                         <?php $file_url = wp_get_attachment_url($file_id); ?>
@@ -91,7 +87,7 @@ while (have_posts()) : the_post();
                             <?php endif; ?>
 
                             <?php if ($how_to_pdf) : ?>
-                                <h2>Как проходить обучение</h2>
+                                <p class="has-medium-font-size"><strong>Как проходить обучение</strong></p>
                                 <p><a href="<?php echo esc_url($how_to_pdf); ?>" target="_blank" rel="noopener">Инструкция по прохождению обучения (PDF)</a></p>
                             <?php endif; ?>
                         </div>
@@ -106,6 +102,9 @@ while (have_posts()) : the_post();
 
     <div class="section section--u-i1mm52hsj">
         <div class="div div--u-ib590tatk rcpk-course-order-cta">
+            <?php if ($price) : ?>
+                <p class="rcpk-course-price has-text-align-center has-background has-medium-font-size"><strong>Стоимость: </strong><?php echo esc_html(number_format_i18n($price)); ?> рублей</p>
+            <?php endif; ?>
             <?php echo rcpk_course_order_button(get_the_ID(), 'Пройти обучение', 'link-universal link-universal--u-ikofmis2h rcpk-course-order-button'); ?>
         </div>
     </div>
