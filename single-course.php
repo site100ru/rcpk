@@ -76,7 +76,7 @@ while (have_posts()) : the_post();
 
                             <?php if ($document_files) : ?>
                                 <p class="has-medium-font-size"><strong>Выдаваемый документ:</strong> <?php echo esc_html(rcpk_course_meta('document')); ?></p>
-                                <p>
+                                <p class="has-medium-font-size">
                                     <?php foreach ($document_files as $i => $file_id) : ?>
                                         <?php $file_url = wp_get_attachment_url($file_id); ?>
                                         <?php if ($file_url) : ?>
@@ -88,7 +88,7 @@ while (have_posts()) : the_post();
 
                             <?php if ($how_to_pdf) : ?>
                                 <p class="has-medium-font-size"><strong>Как проходить обучение</strong></p>
-                                <p><a href="<?php echo esc_url($how_to_pdf); ?>" target="_blank" rel="noopener">Инструкция по прохождению обучения (PDF)</a></p>
+                                <p class="has-medium-font-size"><a href="<?php echo esc_url($how_to_pdf); ?>" target="_blank" rel="noopener">Инструкция по прохождению обучения (PDF)</a></p>
                             <?php endif; ?>
                         </div>
 
