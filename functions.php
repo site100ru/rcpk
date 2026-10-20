@@ -946,6 +946,12 @@ function mytheme_customize_register($wp_customize)
 		)
 	));
 
+	// СЕКЦИЯ: Как проходить обучение (PDF на странице курса)
+	$wp_customize->add_section('rcpk_course_howto', array(
+		'title'    => 'Как проходить обучение',
+		'priority' => 225,
+	));
+
 	$wp_customize->add_setting('rcpk_course_howto_pdf', array(
 		'default'           => '',
 		'transport'         => 'refresh',
@@ -957,7 +963,7 @@ function mytheme_customize_register($wp_customize)
 		array(
 			'label'       => 'PDF «Как проходить обучение»',
 			'description' => 'Один файл для всех курсов, ссылка выводится на странице курса.',
-			'section'     => 'rcpk_catalog_hero',
+			'section'     => 'rcpk_course_howto',
 		)
 	));
 
