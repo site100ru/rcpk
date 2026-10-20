@@ -43,6 +43,17 @@
     gap: 20px;
 }
 
+.rcpk-course-price {
+    background: radial-gradient(rgb(248, 238, 211) 0%, rgba(128, 98, 60, 0.61) 100%);
+    font-weight: 500;
+    padding: 1.25em 2.375em;
+}
+
+.rcpk-course-order-cta {
+    display: flex;
+    justify-content: center;
+}
+
 .rcpk-hero-search {
     display: flex;
     flex-wrap: wrap;

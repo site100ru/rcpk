@@ -946,6 +946,21 @@ function mytheme_customize_register($wp_customize)
 		)
 	));
 
+	$wp_customize->add_setting('rcpk_course_howto_pdf', array(
+		'default'           => '',
+		'transport'         => 'refresh',
+		'sanitize_callback' => 'esc_url_raw',
+	));
+	$wp_customize->add_control(new WP_Customize_Upload_Control(
+		$wp_customize,
+		'rcpk_course_howto_pdf',
+		array(
+			'label'       => 'PDF «Как проходить обучение»',
+			'description' => 'Один файл для всех курсов, ссылка выводится на странице курса.',
+			'section'     => 'rcpk_catalog_hero',
+		)
+	));
+
 	$wp_customize->add_setting('rcpk_neutral_hero_image', array(
 		'default'           => '',
 		'transport'         => 'refresh',

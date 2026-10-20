@@ -24,14 +24,9 @@ get_header();
 while (have_posts()) : the_post();
     $terms   = get_the_terms(get_the_ID(), 'course_direction');
     $primary = $terms && !is_wp_error($terms) ? $terms[0] : null;
-    $details = array(
-        'Объём'                   => rcpk_course_meta('hours') ? rcpk_course_meta('hours') . ' ак. ч.' : '',
-        'Документ'                => rcpk_course_meta('document'),
-        'Срок действия документа' => rcpk_course_meta('validity'),
-        'Стоимость'               => rcpk_course_meta('price') ? number_format_i18n(rcpk_course_meta('price')) . ' ₽' : '',
-    );
-    $requirements   = rcpk_course_meta('requirements');
+    $price          = rcpk_course_meta('price');
     $document_files = array_filter(array_map('absint', explode(',', (string) rcpk_course_meta('document_file'))));
+    $how_to_pdf     = get_theme_mod('rcpk_course_howto_pdf', '');
     ?>
 
     <div class="section section--u-i1mm52hsj rcpk-container--top">
@@ -77,15 +72,14 @@ while (have_posts()) : the_post();
                                 <p><?php echo wp_kses_post(get_the_excerpt()); ?></p>
                             <?php endif; ?>
 
-                            <?php if ($details = array_filter($details)) : ?>
-                                <ul>
-                                    <?php foreach ($details as $label => $value) : ?>
-                                        <li><strong><?php echo esc_html($label); ?>:</strong> <?php echo esc_html($value); ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
+                            <?php the_content(); ?>
+
+                            <?php if ($price) : ?>
+                                <p class="rcpk-course-price has-text-align-center has-background has-medium-font-size"><strong>Стоимость: </strong><?php echo esc_html(number_format_i18n($price)); ?> рублей</p>
                             <?php endif; ?>
 
                             <?php if ($document_files) : ?>
+                                <h2>Выдаваемый документ</h2>
                                 <p>
                                     <?php foreach ($document_files as $i => $file_id) : ?>
                                         <?php $file_url = wp_get_attachment_url($file_id); ?>
@@ -96,11 +90,9 @@ while (have_posts()) : the_post();
                                 </p>
                             <?php endif; ?>
 
-                            <?php the_content(); ?>
-
-                            <?php if ($requirements) : ?>
-                                <h2>Требования к слушателям</h2>
-                                <?php echo wp_kses_post(wpautop(esc_html($requirements))); ?>
+                            <?php if ($how_to_pdf) : ?>
+                                <h2>Как проходить обучение</h2>
+                                <p><a href="<?php echo esc_url($how_to_pdf); ?>" target="_blank" rel="noopener">Инструкция по прохождению обучения (PDF)</a></p>
                             <?php endif; ?>
                         </div>
 
