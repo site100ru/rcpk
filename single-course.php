@@ -98,9 +98,7 @@ while (have_posts()) : the_post();
             </div>
 
         </div>
-    </div>
 
-    <div class="section section--u-i1mm52hsj">
         <div class="div div--u-ib590tatk rcpk-course-order-cta">
             <?php if ($price) : ?>
                 <p class="rcpk-course-price has-text-align-center has-background has-medium-font-size"><strong>Стоимость: </strong><?php echo esc_html(number_format_i18n($price)); ?> рублей</p>
