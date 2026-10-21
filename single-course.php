@@ -27,6 +27,7 @@ while (have_posts()) : the_post();
     $price          = rcpk_course_meta('price');
     $document_files = array_filter(array_map('absint', explode(',', (string) rcpk_course_meta('document_file'))));
     $how_to_pdf     = get_theme_mod('rcpk_course_howto_pdf', '');
+    $how_to_text    = get_theme_mod('rcpk_course_howto_text', '');
     ?>
 
     <div class="section section--u-i1mm52hsj rcpk-container--top">
@@ -61,8 +62,6 @@ while (have_posts()) : the_post();
                 </span>
             </div>
 
-            <h1 class="page-title page-title--u-ipo71g40j"><?php the_title(); ?></h1>
-
             <div class="content content--u-iwo7oqyms">
                 <div class="g-page g-page-article g-page-article--main">
                     <div class="g-page-article">
@@ -80,15 +79,17 @@ while (have_posts()) : the_post();
                                     <?php foreach ($document_files as $i => $file_id) : ?>
                                         <?php $file_url = wp_get_attachment_url($file_id); ?>
                                         <?php if ($file_url) : ?>
-                                            <a href="<?php echo esc_url($file_url); ?>" target="_blank" rel="noopener"><?php echo count($document_files) > 1 ? 'Образец документа ' . ($i + 1) : 'Образец документа'; ?></a><?php echo $i < count($document_files) - 1 ? '<br>' : ''; ?>
+                                            <a href="<?php echo esc_url($file_url); ?>" target="_blank" rel="noopener"><?php echo count($document_files) > 1 ? 'Образец документа ' . ($i + 1) . ' (PDF)' : 'Образец документа (PDF)'; ?></a><?php echo $i < count($document_files) - 1 ? '<br>' : ''; ?>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
                                 </p>
                             <?php endif; ?>
 
-                            <?php if ($how_to_pdf) : ?>
-                                <p class="has-medium-font-size"><strong>Как проходить обучение</strong></p>
-                                <p class="has-medium-font-size"><a href="<?php echo esc_url($how_to_pdf); ?>" target="_blank" rel="noopener">Инструкция по прохождению обучения (PDF)</a></p>
+                            <?php if ($how_to_pdf || $how_to_text) : ?>
+                                <p class="has-medium-font-size"><strong>Как проходить обучение:</strong> <?php echo esc_html($how_to_text); ?></p>
+                                <?php if ($how_to_pdf) : ?>
+                                    <p class="has-medium-font-size"><a href="<?php echo esc_url($how_to_pdf); ?>" target="_blank" rel="noopener">Инструкция по прохождению обучения (PDF)</a></p>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
 

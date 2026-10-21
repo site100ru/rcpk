@@ -967,6 +967,18 @@ function mytheme_customize_register($wp_customize)
 		)
 	));
 
+	$wp_customize->add_setting('rcpk_course_howto_text', array(
+		'default'           => '',
+		'transport'         => 'refresh',
+		'sanitize_callback' => 'sanitize_text_field',
+	));
+	$wp_customize->add_control('rcpk_course_howto_text', array(
+		'label'       => 'Текст «Как проходить обучение»',
+		'description' => 'Выводится после заголовка «Как проходить обучение:» на странице курса.',
+		'section'     => 'rcpk_course_howto',
+		'type'        => 'text',
+	));
+
 	$wp_customize->add_setting('rcpk_neutral_hero_image', array(
 		'default'           => '',
 		'transport'         => 'refresh',
