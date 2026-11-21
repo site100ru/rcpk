@@ -63,7 +63,7 @@ $status    = rcpk_order_status_message();
                     <div class="mosaic-form__icon mosaic-form__icon--u-ionl1f5vp">
                         <span class="svg_image svg_image--u-imgr86jq5"></span>
                     </div>
-                    <input type="tel" name="phone" placeholder="Телефон *" required autocomplete="tel" class="mosaic-form__text mosaic-form__text--u-it5nzmjjk" />
+                    <input type="text" name="phone" placeholder="Телефон *" required autocomplete="tel" class="telMask mosaic-form__text mosaic-form__text--u-it5nzmjjk" />
                 </div>
             </div>
 

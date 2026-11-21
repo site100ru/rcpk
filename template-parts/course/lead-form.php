@@ -45,7 +45,7 @@ $title = $args['title'] ?? 'Запишитесь на курс прямо сей
                                                 <div class="mosaic-form__icon mosaic-form__icon--u-i1a74hspa">
                                                     <span class="svg_image svg_image--u-ihzs58p8p"></span>
                                                 </div>
-                                                <input type="tel" name="tel" placeholder="Телефон *" class="mosaic-form__text mosaic-form__text--u-iqc0dx3o9" />
+                                                <input type="text" name="tel" placeholder="Телефон *" class="telMask mosaic-form__text mosaic-form__text--u-iqc0dx3o9" />
                                             </div>
                                             <div class="mosaic-form__note mosaic-form__note--u-i7rsps8ye is-removed"></div>
                                         </div>
@@ -150,6 +150,7 @@ $title = $args['title'] ?? 'Запишитесь на курс прямо сей
                                             </span></label>
                                         <div class="mosaic-form__note mosaic-form__note--u-ith3092u9 is-removed"></div>
                                     </div>
+                                    <input type="hidden" name="g-recaptcha-response">
                                     <button type="submit" class="mosaic-form__button mosaic-form__button--u-ikpkw5uss">
                                         <span class="button__text button__text--u-ipdo2852o"><span class="text-block-wrap-div">Отправить</span></span></button><re-captcha></re-captcha>
                                 </form>

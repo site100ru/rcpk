@@ -97,6 +97,9 @@ function mytheme_enqueue_scripts()
     wp_enqueue_script('mytheme-main', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), null, true);
     wp_enqueue_script('mytheme-animations', get_template_directory_uri() . '/assets/js/animations.js', array('jquery', 'wow-js'), null, true);
 
+    wp_enqueue_script('inputmask', get_template_directory_uri() . '/assets/js/inputmask.min.js', array(), null, true);
+    wp_enqueue_script('rcpk-tel-mask', get_template_directory_uri() . '/assets/js/tel-mask.js', array('inputmask'), null, true);
+
     // Скрипты для главной страницы
     if (is_front_page()) {
         wp_enqueue_script('slick-js', get_template_directory_uri() . '/assets/js/slick/slick.min.js', array('jquery'), null, true);
@@ -267,20 +270,15 @@ function catalog_external_link_callback($post) {
     wp_nonce_field('catalog_save_external_link', 'catalog_external_link_nonce');
     $value = get_post_meta($post->ID, 'external_link', true);
     ?>
-    <p>
-        <label for="catalog_external_link">URL:</label><br>
-        <input type="url" 
-               id="catalog_external_link" 
-               name="catalog_external_link" 
-               value="<?php echo esc_attr($value); ?>" 
-               style="width: 100%;" 
-               placeholder="https://example.com">
-    </p>
-    <p class="description">
-        Если указана, кнопка "Подробнее" будет вести на этот адрес.<br>
-        Если не указана - на страницу статьи.
-    </p>
-    <?php
+<p>
+	<label for="catalog_external_link">URL:</label><br>
+	<input type="url" id="catalog_external_link" name="catalog_external_link" value="<?php echo esc_attr($value); ?>" style="width: 100%;" placeholder="https://example.com">
+</p>
+<p class="description">
+	Если указана, кнопка "Подробнее" будет вести на этот адрес.<br>
+	Если не указана - на страницу статьи.
+</p>
+<?php
 }
 
 // Сохранение мета-поля
@@ -410,14 +408,14 @@ function reviews_meta_box_callback($post)
     $author_name = get_post_meta($post->ID, '_review_author_name', true);
     $author_position = get_post_meta($post->ID, '_review_author_position', true);
 ?>
-    <p>
-        <label><strong>Имя автора отзыва:</strong></label><br>
-        <input type="text" name="review_author_name" value="<?php echo esc_attr($author_name); ?>" style="width: 100%;">
-    </p>
-    <p>
-        <label><strong>Должность:</strong></label><br>
-        <input type="text" name="review_author_position" value="<?php echo esc_attr($author_position); ?>" style="width: 100%;">
-    </p>
+<p>
+	<label><strong>Имя автора отзыва:</strong></label><br>
+	<input type="text" name="review_author_name" value="<?php echo esc_attr($author_name); ?>" style="width: 100%;">
+</p>
+<p>
+	<label><strong>Должность:</strong></label><br>
+	<input type="text" name="review_author_position" value="<?php echo esc_attr($author_position); ?>" style="width: 100%;">
+</p>
 <?php
 }
 
@@ -1018,62 +1016,58 @@ if (class_exists('WP_Customize_Control')) {
             }
             $control_id = esc_js($this->id);
             ?>
-            <label>
-                <span class="customize-control-title"><?php echo esc_html($this->label); ?></span>
-                <?php if (!empty($this->description)) : ?>
-                    <span class="description customize-control-description"><?php echo esc_html($this->description); ?></span>
-                <?php endif; ?>
-            </label>
+<label>
+	<span class="customize-control-title"><?php echo esc_html($this->label); ?></span>
+	<?php if (!empty($this->description)) : ?>
+	<span class="description customize-control-description"><?php echo esc_html($this->description); ?></span>
+	<?php endif; ?>
+</label>
 
-            <div class="license-repeater-list" id="license-repeater-list-<?php echo $control_id; ?>">
-                <?php foreach ($values as $index => $item) : ?>
-                    <div class="license-repeater-item" style="margin-bottom: 15px; padding: 12px; border: 1px solid #ddd; border-radius: 4px; background: #fafafa;">
-                        <p class="license-item-head" style="margin: 0 0 8px; display: flex; align-items: center; gap: 4px; cursor: move;">
-                            <strong style="flex: 1;">документ <span class="license-num"><?php echo $index + 1; ?></span></strong>
-                            <button type="button" class="button button-small license-move-up" title="Переместить выше">↑</button>
-                            <button type="button" class="button button-small license-move-down" title="Переместить ниже">↓</button>
-                        </p>
-                        <input type="text"
-                            placeholder="Название (напр: Свидетельство СРО)"
-                            value="<?php echo esc_attr($item['title'] ?? ''); ?>"
-                            class="license-title widefat"
-                            style="margin-bottom: 8px;">
+<div class="license-repeater-list" id="license-repeater-list-<?php echo $control_id; ?>">
+	<?php foreach ($values as $index => $item) : ?>
+	<div class="license-repeater-item" style="margin-bottom: 15px; padding: 12px; border: 1px solid #ddd; border-radius: 4px; background: #fafafa;">
+		<p class="license-item-head" style="margin: 0 0 8px; display: flex; align-items: center; gap: 4px; cursor: move;">
+			<strong style="flex: 1;">документ <span class="license-num"><?php echo $index + 1; ?></span></strong>
+			<button type="button" class="button button-small license-move-up" title="Переместить выше">↑</button>
+			<button type="button" class="button button-small license-move-down" title="Переместить ниже">↓</button>
+		</p>
+		<input type="text" placeholder="Название (напр: Свидетельство СРО)" value="<?php echo esc_attr($item['title'] ?? ''); ?>" class="license-title widefat" style="margin-bottom: 8px;">
 
-                        <p style="margin: 0 0 4px; font-size: 12px; color: #555;">Картинка-превью:</p>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                            <div class="license-img-preview" style="width: 60px; height: 60px; border: 1px solid #ddd; background: #eee; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
-                                <?php if (!empty($item['img_url'])) : ?>
-                                    <img src="<?php echo esc_attr($item['img_url']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
-                                <?php else : ?>
-                                    <span style="font-size: 10px; color: #999;">нет</span>
-                                <?php endif; ?>
-                            </div>
-                            <div>
-                                <input type="hidden" class="license-img-url" value="<?php echo esc_attr($item['img_url'] ?? ''); ?>">
-                                <button type="button" class="button license-upload-img" style="display: block; margin-bottom: 4px;">Выбрать картинку</button>
-                                <button type="button" class="button license-remove-img" style="display: block; color: #a00; <?php echo empty($item['img_url']) ? 'display:none!important;' : ''; ?>">Удалить</button>
-                            </div>
-                        </div>
+		<p style="margin: 0 0 4px; font-size: 12px; color: #555;">Картинка-превью:</p>
+		<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+			<div class="license-img-preview" style="width: 60px; height: 60px; border: 1px solid #ddd; background: #eee; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+				<?php if (!empty($item['img_url'])) : ?>
+				<img src="<?php echo esc_attr($item['img_url']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
+				<?php else : ?>
+				<span style="font-size: 10px; color: #999;">нет</span>
+				<?php endif; ?>
+			</div>
+			<div>
+				<input type="hidden" class="license-img-url" value="<?php echo esc_attr($item['img_url'] ?? ''); ?>">
+				<button type="button" class="button license-upload-img" style="display: block; margin-bottom: 4px;">Выбрать картинку</button>
+				<button type="button" class="button license-remove-img" style="display: block; color: #a00; <?php echo empty($item['img_url']) ? 'display:none!important;' : ''; ?>">Удалить</button>
+			</div>
+		</div>
 
-                        <p style="margin: 0 0 4px; font-size: 12px; color: #555;">PDF файл (необязательно):</p>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                            <input type="hidden" class="license-pdf-url" value="<?php echo esc_attr($item['pdf_url'] ?? ''); ?>">
-                            <span class="license-pdf-name" style="font-size: 12px; color: #333; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                <?php echo !empty($item['pdf_url']) ? basename($item['pdf_url']) : '—'; ?>
-                            </span>
-                            <button type="button" class="button license-upload-pdf">Выбрать PDF</button>
-                            <button type="button" class="button license-remove-pdf" style="color: #a00; <?php echo empty($item['pdf_url']) ? 'display:none;' : ''; ?>">✕</button>
-                        </div>
+		<p style="margin: 0 0 4px; font-size: 12px; color: #555;">PDF файл (необязательно):</p>
+		<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+			<input type="hidden" class="license-pdf-url" value="<?php echo esc_attr($item['pdf_url'] ?? ''); ?>">
+			<span class="license-pdf-name" style="font-size: 12px; color: #333; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+				<?php echo !empty($item['pdf_url']) ? basename($item['pdf_url']) : '—'; ?>
+			</span>
+			<button type="button" class="button license-upload-pdf">Выбрать PDF</button>
+			<button type="button" class="button license-remove-pdf" style="color: #a00; <?php echo empty($item['pdf_url']) ? 'display:none;' : ''; ?>">✕</button>
+		</div>
 
-                        <button type="button" class="button license-remove-item" style="color: #a00;">Удалить документ</button>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+		<button type="button" class="button license-remove-item" style="color: #a00;">Удалить документ</button>
+	</div>
+	<?php endforeach; ?>
+</div>
 
-            <button type="button" class="button button-primary license-add-item" style="margin-top: 10px;">+ Добавить документ</button>
-            <input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr($this->value()); ?>" class="license-repeater-value">
+<button type="button" class="button button-primary license-add-item" style="margin-top: 10px;">+ Добавить документ</button>
+<input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr($this->value()); ?>" class="license-repeater-value">
 
-            <script type="text/javascript">
+<script type="text/javascript">
                 (function($) {
                     var listId = 'license-repeater-list-<?php echo $control_id; ?>';
                     var $control = $('#customize-control-<?php echo $control_id; ?>');
@@ -1208,7 +1202,7 @@ if (class_exists('WP_Customize_Control')) {
 
                 })(jQuery);
             </script>
-            <?php
+<?php
         }
     }
 }
@@ -1270,26 +1264,26 @@ function render_image_caption_block($attributes)
 
     ob_start();
 ?>
-    <div class="lpc-content-wrapper">
-        <div class="decor-wrap">
-            <div class="lpc-elements-text-3 lpc-block" style="max-width: 1309px">
-                <div class="lpc-elements-text-3__wrap lpc-wrap">
-                    <div class="lpc-elements-text-3__inner">
-                        <div class="lpc-elements-text-3__row lpc-row js-lg-init">
-                            <div class="lpc-col-4-xl lpc-col-4-lg lpc-col-6-md lpc-col-6-sm lpc-col-12-xs lpc-elements-text-3__photos _<?php echo $alignment; ?>">
-                                <div class="lpc-elements-text-3__photo-wrap">
-                                    <a href="<?php echo $image_url; ?>" target="_blank" class="lpc-image-type-1 lg-item lpc-elements-text-3__photo lp-selected-element">
-                                        <img src="<?php echo $image_url; ?>" alt="<?php echo $caption; ?>" class="">
-                                    </a>
-                                </div>
-                                <div class="lpc-elements-text-3__img-title lp-header-title-6"><?php echo $caption; ?></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="lpc-content-wrapper">
+	<div class="decor-wrap">
+		<div class="lpc-elements-text-3 lpc-block" style="max-width: 1309px">
+			<div class="lpc-elements-text-3__wrap lpc-wrap">
+				<div class="lpc-elements-text-3__inner">
+					<div class="lpc-elements-text-3__row lpc-row js-lg-init">
+						<div class="lpc-col-4-xl lpc-col-4-lg lpc-col-6-md lpc-col-6-sm lpc-col-12-xs lpc-elements-text-3__photos _<?php echo $alignment; ?>">
+							<div class="lpc-elements-text-3__photo-wrap">
+								<a href="<?php echo $image_url; ?>" target="_blank" class="lpc-image-type-1 lg-item lpc-elements-text-3__photo lp-selected-element">
+									<img src="<?php echo $image_url; ?>" alt="<?php echo $caption; ?>" class="">
+								</a>
+							</div>
+							<div class="lpc-elements-text-3__img-title lp-header-title-6"><?php echo $caption; ?></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <?php
     return ob_get_clean();
 }

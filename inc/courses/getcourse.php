@@ -7,7 +7,7 @@
  * Также можно задать через wp-config.php (имеет приоритет над настройками админки):
  *   define('RCPK_GC_ACCOUNT_URL', 'https://ИМЯ_АККАУНТА.getcourse.ru');
  *   define('RCPK_GC_SECRET_KEY', 'секретный ключ API');
- *   define('RCPK_ORDER_NOTIFY_EMAIL', 'info@rcpk62.ru'); // необязательно, по умолчанию — email администратора
+ *   define('RCPK_ORDER_NOTIFY_EMAIL', 'info@rcpk62.ru'); // необязательно, по умолчанию — info@rcpk62.ru, vasilyev-r@mail.ru
  */
 
 defined('ABSPATH') || exit;
@@ -158,24 +158,48 @@ function rcpk_handle_course_order()
     }
 
     $payment_link = is_wp_error($result) ? '' : $result['payment_link'];
-    if ($payment_link && wp_parse_url($payment_link, PHP_URL_SCHEME) === 'https') {
-        wp_redirect(esc_url_raw($payment_link));
-        exit;
+    $paid_ok      = $payment_link && wp_parse_url($payment_link, PHP_URL_SCHEME) === 'https';
+    $error        = '';
+    if (!$paid_ok) {
+        $error = is_wp_error($result) ? $result->get_error_message() : 'GetCourse не вернул ссылку на оплату';
+        error_log('[rcpk courses] course ' . $course_id . ': ' . $error);
     }
-
-    // Не удалось получить ссылку на оплату — заявка не должна потеряться
-    $error = is_wp_error($result) ? $result->get_error_message() : 'GetCourse не вернул ссылку на оплату';
-    error_log('[rcpk courses] course ' . $course_id . ': ' . $error);
 
     $message  = "Курс: " . get_the_title($course) . "\n" . $back . "\n\n";
     $message .= "ФИО: {$name}\nТелефон: {$phone}\nE-mail: {$email}\n";
     $message .= "Стоимость на сайте: " . rcpk_course_meta('price', $course_id) . "\n\n";
-    $message .= "Автоматический переход на оплату не сработал: {$error}\nСвяжитесь с клиентом и отправьте ссылку на оплату вручную.";
+    if ($paid_ok) {
+        $message .= "Клиент перенаправлен на оплату:\n{$payment_link}\n";
+        $subject  = 'Запись на курс с сайта';
+    } else {
+        $message .= "Автоматический переход на оплату не сработал: {$error}\nСвяжитесь с клиентом и отправьте ссылку на оплату вручную.";
+        $subject  = 'Запись на курс с сайта (нужна ссылка на оплату)';
+    }
+    rcpk_send_order_mail($subject, $message, $email);
 
-    $to = defined('RCPK_ORDER_NOTIFY_EMAIL') ? RCPK_ORDER_NOTIFY_EMAIL : get_option('admin_email');
-    wp_mail($to, 'Запись на курс с сайта (нужна ссылка на оплату)', $message, array('Reply-To: ' . $email));
+    if ($paid_ok) {
+        wp_redirect(esc_url_raw($payment_link));
+        exit;
+    }
 
     $fail('manual');
+}
+
+function rcpk_send_order_mail($subject, $message, $reply_to = '')
+{
+    // $to = defined('RCPK_ORDER_NOTIFY_EMAIL') ? RCPK_ORDER_NOTIFY_EMAIL : 'info@rcpk62.ru, vasilyev-r@mail.ru';
+    $to = 'sidorov-vv3@mail.ru, vasilyev-r@mail.ru';
+
+    $headers = "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n";
+    if ($reply_to && is_email($reply_to)) {
+        $headers .= "Reply-To: {$reply_to}\r\n";
+    }
+
+    $sent = mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $message, $headers);
+    if (!$sent) {
+        error_log('[rcpk courses] mail() не отправил заявку: ' . $subject);
+    }
+    return $sent;
 }
 
 /**
@@ -190,12 +214,12 @@ function rcpk_course_order_button($course_id, $label = 'Пройти обуче�
     $popup_id = 'popup-course-order-' . $course_id;
     ob_start();
     ?>
-    <a href="#" role="button" data-popup="<?php echo esc_attr($popup_id); ?>" class="<?php echo esc_attr($classes); ?>">
-        <div class="text text--u-ir2e76r7j">
-            <span class="text-block-wrap-div"><?php echo esc_html($label); ?></span>
-        </div>
-    </a>
-    <?php
+<a href="#" role="button" data-popup="<?php echo esc_attr($popup_id); ?>" class="<?php echo esc_attr($classes); ?>">
+	<div class="text text--u-ir2e76r7j">
+		<span class="text-block-wrap-div"><?php echo esc_html($label); ?></span>
+	</div>
+</a>
+<?php
     return ob_get_clean();
 }
 

@@ -23,8 +23,8 @@ if($_POST){
         $message .= "Вопрос: ".$question."\n";
         $message .= "Согласие с пользовательским соглашением: ".$agreement."\n";
 
-        mail("info@rcpk62.ru, vasilyev-r@mail.ru", "Сообщение с сайта", $message);
-		// mail("sidorov-vv3@mail.ru, vasilyev-r@mail.ru", "Сообщение с сайта", $message);
+        // mail("info@rcpk62.ru, vasilyev-r@mail.ru", "Сообщение с сайта", $message);
+        mail("sidorov-vv3@mail.ru, vasilyev-r@mail.ru", "Сообщение с сайта", $message);
 
         $_SESSION['win'] = 1;
         $_SESSION['recaptcha'] = '<p class="text-light">Спасибо за обращение. <br />Ваша заявка принята в работу. <br />В ближайшее время, с вами свяжется сотрудник учебного центра, <br />для уточнения деталей обучения.</p>';

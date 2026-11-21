@@ -85,7 +85,7 @@ if (isset($_SESSION['win'])) {
                                             <div class="mosaic-form__icon mosaic-form__icon--u-ionl1f5vp">
                                                 <span class="svg_image svg_image--u-imgr86jq5"></span>
                                             </div>
-                                            <input type="tel" name="tel" placeholder="Телефон *" class="mosaic-form__text mosaic-form__text--u-it5nzmjjk" />
+                                            <input type="text" name="tel" placeholder="Телефон *" class="telMask mosaic-form__text mosaic-form__text--u-it5nzmjjk" />
                                         </div>
                                         <div class="mosaic-form__note mosaic-form__note--u-itxjzugwf is-removed"></div>
                                     </div>
@@ -224,7 +224,7 @@ if (isset($_SESSION['win'])) {
                                             <div class="mosaic-form__icon mosaic-form__icon--u-ionl1f5vp">
                                                 <span class="svg_image svg_image--u-imgr86jq5"></span>
                                             </div>
-                                            <input type="tel" name="tel" placeholder="Телефон *" class="mosaic-form__text mosaic-form__text--u-it5nzmjjk" />
+                                            <input type="text" name="tel" placeholder="Телефон *" class="telMask mosaic-form__text mosaic-form__text--u-it5nzmjjk" />
                                         </div>
                                         <div class="mosaic-form__note mosaic-form__note--u-itxjzugwf is-removed"></div>
                                     </div>
@@ -353,7 +353,7 @@ if (isset($_SESSION['win'])) {
                                             </span>
                                         </div>
                                         <div class="mosaic-form__body mosaic-form__body--u-ivge1fzf5">
-                                            <input type="tel" name="tel" placeholder="Телефон *" class="mosaic-form__text mosaic-form__text--u-iqc0dx3o9" required />
+                                            <input type="text" name="tel" placeholder="Телефон *" class="telMask mosaic-form__text mosaic-form__text--u-iqc0dx3o9" required />
                                         </div>
                                     </div>
                                     <div class="mosaic-form__field mosaic-form__field--u-if7a3g01p">

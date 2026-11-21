@@ -305,4 +305,32 @@ $(document).ready(function() {
         if (e.key === 'ArrowLeft') $('.pswp__button--arrow--left').click();
         if (e.key === 'ArrowRight') $('.pswp__button--arrow--right').click();
     });
+
+    var cardSel = '.rcpk-dcard, .course-card, .blocklist__item__outer';
+    var cardTitleLink = function ($card) {
+        return $card.find('.rcpk-dcard__title a[href], .course-card__title a[href], .blocklist__item_title a[href]').first();
+    };
+    var interactiveSel = 'a, button, input, select, textarea, label, [role="button"], [data-popup], [data-gallery-trigger]';
+
+    $(cardSel).each(function () {
+        if (cardTitleLink($(this)).length) $(this).addClass('is-card-link');
+    });
+
+    $(document).on('click', '.is-card-link', function (e) {
+        if ($(e.target).closest(interactiveSel).length) return;
+        if (window.getSelection && String(window.getSelection()).length) return;
+        var href = cardTitleLink($(this)).attr('href');
+        if (!href || href === '#') return;
+        if (e.ctrlKey || e.metaKey || e.shiftKey) {
+            window.open(href, '_blank');
+        } else {
+            window.location.href = href;
+        }
+    });
+
+    $(document).on('auxclick', '.is-card-link', function (e) {
+        if (e.which !== 2 || $(e.target).closest(interactiveSel).length) return;
+        var href = cardTitleLink($(this)).attr('href');
+        if (href && href !== '#') window.open(href, '_blank');
+    });
 });
