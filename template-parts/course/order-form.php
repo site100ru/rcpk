@@ -9,7 +9,7 @@ $id_suffix = !empty($args['id_suffix']) ? '-' . (int) $args['id_suffix'] : '';
 $status    = rcpk_order_status_message();
 ?>
 <div id="course-order<?php echo esc_attr($id_suffix); ?>" class="mosaic-form mosaic-form--u-iyjjmcepo course-order">
-    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="mosaic-form__form mosaic-form__form--u-iwsx1397a">
+    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="mosaic-form__form mosaic-form__form--u-iwsx1397a" onsubmit="ym(112746153, 'reachGoal', 'proyti_obuchenie'); return true;">
         <div class="mosaic-form__title mosaic-form__title--u-iacq4vc9z">
             <span class="text-block-wrap-div">Записаться на курс</span>
         </div>
