@@ -365,23 +365,46 @@ function mytheme_flush_rewrite_rules()
 }
 register_activation_hook(__FILE__, 'mytheme_flush_rewrite_rules');
 
+// Сохранение кода счетчиков: администратору можно <script>, остальным — как в записях
+function mytheme_sanitize_counter_code($code)
+{
+    return current_user_can('unfiltered_html') ? $code : wp_kses_post($code);
+}
+
+// Код, сохранённый раньше через wp_kses_post, остался без <script> — оборачиваем, чтобы он не печатался текстом
+function mytheme_print_counter_code($code)
+{
+    $code = trim((string) $code);
+    if ($code === '') {
+        return;
+    }
+    if (stripos($code, '<script') !== false) {
+        echo $code . "\n";
+        return;
+    }
+    // wp_kses_post срезал <script>/<noscript> и закодировал кавычки и «<» — собираем код обратно
+    $code = preg_replace('/<!--.*?-->/s', '', $code);
+    preg_match_all('#<div\b.*?</div>#is', $code, $html);
+    $js = trim(html_entity_decode(preg_replace('#<div\b.*?</div>#is', '', $code), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+    if ($js !== '') {
+        echo "<script>\n" . $js . "\n</script>\n";
+    }
+    if (!empty($html[0])) {
+        echo '<noscript>' . implode('', $html[0]) . "</noscript>\n";
+    }
+}
+
 // Вывод кода счетчиков в head
 function mytheme_analytics_head()
 {
-    $counter_code = get_theme_mod('mytheme_counter_head', '');
-    if (!empty($counter_code)) {
-        echo $counter_code;
-    }
+    mytheme_print_counter_code(get_theme_mod('mytheme_counter_head', ''));
 }
 add_action('wp_head', 'mytheme_analytics_head');
 
 // Вывод кода счетчиков перед </body>
 function mytheme_analytics_body()
 {
-    $counter_code = get_theme_mod('mytheme_counter_body', '');
-    if (!empty($counter_code)) {
-        echo $counter_code;
-    }
+    mytheme_print_counter_code(get_theme_mod('mytheme_counter_body', ''));
 }
 add_action('wp_footer', 'mytheme_analytics_body');
 
@@ -456,7 +479,7 @@ function mytheme_customize_register($wp_customize)
     $wp_customize->add_setting('mytheme_counter_head', array(
         'default'           => '',
         'transport'         => 'refresh',
-        'sanitize_callback' => 'wp_kses_post',
+        'sanitize_callback' => 'mytheme_sanitize_counter_code',
         'capability'        => 'edit_theme_options',
     ));
     $wp_customize->add_control('mytheme_counter_head', array(
@@ -470,7 +493,7 @@ function mytheme_customize_register($wp_customize)
     $wp_customize->add_setting('mytheme_counter_body', array(
         'default'           => '',
         'transport'         => 'refresh',
-        'sanitize_callback' => 'wp_kses_post',
+        'sanitize_callback' => 'mytheme_sanitize_counter_code',
         'capability'        => 'edit_theme_options',
     ));
     $wp_customize->add_control('mytheme_counter_body', array(
