@@ -23,8 +23,8 @@ jobs:
                       #git clone https://github.com/site100ru/rcpk.git .
 
                       #Клинируем репозиторий в папку
-                      # git pull
+                      git pull
 
                       #Если кто то изменил файлы на сервере минуя GitHub, перезаписываем версию на сервере из GitHub
-                      git reset --hard HEAD
-                      git pull origin main
+                    #   git reset --hard HEAD
+                    #   git pull origin main
